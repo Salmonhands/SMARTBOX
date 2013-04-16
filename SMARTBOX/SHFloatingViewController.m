@@ -25,7 +25,6 @@
 
 @property (nonatomic, strong) NSURL* previewItemURL;
 
-
 @end
 
 @implementation SHFloatingViewController
@@ -104,7 +103,7 @@
         [_viewButton setImage:[UIImage imageNamed:@"view.png"] forState:UIControlStateNormal];
         [_viewButton setImage:[UIImage imageNamed:@"viewT.png"] forState:UIControlStateSelected];
         [_viewButton setImage:[UIImage imageNamed:@"viewT.png"] forState:UIControlStateHighlighted];
-        _viewButton.frame = CGRectMake(35.0f, 370.0f, 35.0f, 35.0f);
+        _viewButton.frame = CGRectMake(35.0f, 372.5f, 35.0f, 30.0f);
         [_viewButton addTarget:self action:@selector(buttonTouchUpInsideView:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _viewButton;
@@ -138,10 +137,19 @@
 - (void)buttonTouchUpInsideNote:(id)sender {
     
 }
+
+- (void)backButtonSelected:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^(void){
+    }];
+    
+    self.innerViewController.view.frame = CGRectMake(22.0f, 60.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - 120.0f);
+    [self.view addSubview:self.innerViewController.view];
+}
 - (void)buttonTouchUpInsideView:(id)sender {
+    UIBarButtonItem* b = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonSelected:)];
+    self.innerViewController.navigationItem.leftBarButtonItem = b;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.innerViewController];
-    UIBarButtonItem* b = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:self action:nil];
-    nav.navigationItem.rightBarButtonItem = b;
+    
     [self presentViewController:nav animated:YES completion:^(void){}];
 }
 
