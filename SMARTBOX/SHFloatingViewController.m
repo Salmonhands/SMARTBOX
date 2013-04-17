@@ -207,6 +207,7 @@
 }
 
 - (void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    [self.multiTableController bringToFrontFloatingView:self];
     if ([gestureRecognizer state] == UIGestureRecognizerStateBegan || [gestureRecognizer state] == UIGestureRecognizerStateChanged) {
         CGPoint point = [gestureRecognizer locationInView:self.view.superview];
         if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {

@@ -17,6 +17,7 @@
 - (void)pushViewController:(UIViewController *)controller asChildOf:(SHTableViewController *)parent animated:(BOOL)animated;
 - (void)popViewController;
 - (void)addFloatingView:(SHFloatingViewController *) floatingViewController withSender:(SHTableViewController *) parent;
+- (void)bringToFrontFloatingView:(SHFloatingViewController *) floatingViewController;
 - (void)removeFloatingView:(SHFloatingViewController *) floatingViewController;
 - (void)removeFloatingView:(SHFloatingViewController *) floatingViewController refresh:(BOOL)flag;
 

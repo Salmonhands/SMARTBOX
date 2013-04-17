@@ -95,6 +95,10 @@
     [self.view addSubview:floatingViewController.view];
 }
 
+- (void)bringToFrontFloatingView:(SHFloatingViewController *) floatingViewController {
+    [self.view bringSubviewToFront:floatingViewController.view];
+}
+
 
 - (void)removeFloatingView:(SHFloatingViewController *) floatingViewController {
     [self removeFloatingView:floatingViewController refresh:NO];
@@ -107,7 +111,6 @@
             NSMutableArray* mutable = [self.floatingViews mutableCopy];
             [mutable removeObject:floatingViewController];
             self.floatingViews = mutable;
-//            floatingViewController.parent
             if (flag) {[floatingViewController.parent pull];}
             [floatingViewController.view removeFromSuperview];
             
