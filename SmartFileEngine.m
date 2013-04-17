@@ -126,4 +126,29 @@
     return op;
 }
 
+- (MKNetworkOperation*) rm:(NSString*) file
+              onCompletion:(rmResponseBlock) completionBlock
+                   onError:(MKNKResponseErrorBlock) errorBlock;
+{
+    NSString* path = @"path/oper/remove/";
+    
+    NSDictionary* params = [NSDictionary dictionaryWithObject:[file stringByReplacingOccurrencesOfString:@" " withString:@"%20"] forKey:@"path"];
+    MKNetworkOperation* op = [self operationWithPath:path
+                                              params:params
+                                          httpMethod:@"POST"
+                                                 ssl:YES];
+    
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
+            NSDictionary* json = (NSDictionary*) jsonObject;
+            completionBlock(json);
+        }];
+    }errorHandler:^(MKNetworkOperation *erroredOperation, NSError *error) {
+        errorBlock(erroredOperation, error);
+    }];
+    
+    [self enqueueOperation:op];
+    return op;
+}
+
 @end

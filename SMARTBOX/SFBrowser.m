@@ -171,7 +171,66 @@
         cell.textLabel.text = display;
         cell.textLabel.alpha = 1.0f;
         cell.textLabel.font = [UIFont boldSystemFontOfSize:21.0f];
-        cell.imageView.image = [UIImage imageNamed:@"Folder.png"];
+        
+        NSString* image = @"Folder.png";
+        DLog(@"%@", [element objectForKey:@"mime"]);
+        
+        if ([@"application/msword" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"DOC.png";
+        }
+        else if ([@"image/jpeg" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"JPG.png";
+        }
+        else if ([@"image/pjpeg" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"JPG.png";
+        }
+        else if ([@"video/quicktime" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"MOV.png";
+        }
+        else if ([@"application/pdf" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"PDF.png";
+        }
+        else if ([@"application/mspowerpoint" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"PPT.png";
+        }
+        else if ([@"application/powerpoint" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"PPT.png";
+        }
+        else if ([@"application/x-mspowerpoint" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"PPT.png";
+        }
+        else if ([@"application/vnd.ms-powerpoint" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"PPT.png";
+        }
+        else if ([@"application/octet-stream" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"PSD.png";
+        }
+        else if ([@"application/x-excel" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"XLS.png";
+        }
+        else if ([@"application/vnd.ms-excel" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"XLS.png";
+        }
+        else if ([@"application/excel" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"XLS.png";
+        }
+        else if ([@"application/x-msexcel" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"XLS.png";
+        }
+        else if ([@"application/x-compressed" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"ZIP.png";
+        }
+        else if ([@"application/x-zip-compressed" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"ZIP.png";
+        }
+        else if ([@"application/zip" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"ZIP.png";
+        }
+        else if ([@"multipart/x-zip" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"ZIP.png";
+        }
+        cell.imageView.image = [UIImage imageNamed:image];
+        
     } else if (indexPath.section == 1) {
         cell.textLabel.text = @"Add Folder";
         cell.textLabel.alpha = 0.6f;
@@ -212,17 +271,20 @@
         NSString* file = [NSString stringWithFormat:@"%@%@", self.directory, element[@"name"]];
         [engine downloadFile:file
             onProgressChange:nil
-                onCompletion:^(NSData* file) {
+                onCompletion:^(NSData* downFile) {
                     // Save the file to the local cache
                     NSString* path = [[self cacheDirectoryName] stringByAppendingPathComponent:element[@"name"]];
                     DLog(@"%@", path);
                     NSError* error;
-                    [file writeToFile:path options:NSDataWritingAtomic error:&error];
+                    [downFile writeToFile:path options:NSDataWritingAtomic error:&error];
                     if (error) {
                         DLog(@"%@", [error localizedDescription]);
                     }
                     
-                    [self.multiTableController addFloatingView:[[SHFloatingViewController alloc] initWithURL:[NSURL fileURLWithPath:path isDirectory:NO]]];
+                    SHFloatingViewController* floatingView = [[SHFloatingViewController alloc] initWithURL:[NSURL fileURLWithPath:path isDirectory:NO]];
+                    floatingView.HTTPpath = file;
+                    floatingView.engine = engine;
+                    [self.multiTableController addFloatingView:floatingView];
                 }
                      onError:^(MKNetworkOperation* op, NSError* error) {
                          DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],

@@ -8,6 +8,7 @@
 
 #import "SHFloatingViewController.h"
 #import "SHMultiTableViewController.h"
+#import "SmartFileEngine.h"
 #import <QuickLook/QuickLook.h>
 
 @interface SHFloatingViewController ()  <UIGestureRecognizerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
@@ -126,6 +127,14 @@
     
 }
 - (void)buttonTouchUpInsideDelete:(id)sender {
+    if (self.HTTPpath) {
+        [self.engine rm:self.HTTPpath
+           onCompletion:^(NSDictionary *task) {
+            //
+        } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+            //
+        }];
+    }
     
 }
 - (void)buttonTouchUpInsideExit:(id)sender {

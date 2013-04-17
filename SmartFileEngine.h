@@ -32,4 +32,8 @@ typedef void (^rmResponseBlock)(NSDictionary* task);
                  onCompletion:(rmResponseBlock) completionBlock
                       onError:(MKNKResponseErrorBlock) errorBlock;
 
+- (MKNetworkOperation*) rm:(NSString*) file
+              onCompletion:(rmResponseBlock) completionBlock
+                   onError:(MKNKResponseErrorBlock) errorBlock;
+
 @end
