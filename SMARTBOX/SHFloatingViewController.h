@@ -19,7 +19,12 @@
 @property (nonatomic, strong) NSString* HTTPpath;
 @property (nonatomic, strong) SmartFileEngine* engine;
 @property (nonatomic, weak) SHTableViewController* parent;
+@property (nonatomic, strong) UIViewController* revealableView;
 
 - (id)initWithURL:(NSURL *)url;
+
+- (void)exposeHiddenView;
+- (void)hideExposedView;
+- (void)swapNoteView;
 
 @end

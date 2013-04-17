@@ -17,6 +17,8 @@
     CGPoint _priorPoint;
 }
 
+@property (nonatomic) BOOL noteViewHidden;
+
 @property (nonatomic, strong) UIImageView* bgImage;
 @property (nonatomic, strong, readonly) UIButton* clipboardShareButton;
 @property (nonatomic, strong, readonly) UIButton* deleteButton;
@@ -118,63 +120,18 @@
     self = [super init];
     if (self) {
         self.previewItemURL = url;
+        self.noteViewHidden = YES;
     }
     return self;
 }
-
 #pragma mark -
-#pragma mark Button Handlers
-- (void)buttonTouchUpInsideClipboard:(id)sender {
-    
-}
-- (void)buttonTouchUpInsideDelete:(id)sender {
-    DLog(@"%@", self.HTTPpath);
-    if (self.HTTPpath) {
-        [self.engine rm:self.HTTPpath
-           onCompletion:^(NSDictionary *task) {
-               NSArray *a = [self.HTTPpath componentsSeparatedByString:@"/"];
-               [self.parent removeObjectWithName:[a lastObject]];
-               [self.multiTableController removeFloatingView:self refresh:NO];
-        }
-                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-                    DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason], [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
-        }];
-    }
-    
-}
-- (void)buttonTouchUpInsideExit:(id)sender {
-    [self.multiTableController removeFloatingView:self refresh:NO];
-}
-- (void)buttonTouchUpInsideMove:(id)sender {
-    
-}
-- (void)buttonTouchUpInsideNote:(id)sender {
-    
-}
-
-- (void)backButtonSelected:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^(void){
-    }];
-    
-    self.innerViewController.view.frame = CGRectMake(22.0f, 60.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - 120.0f);
-    [self.view addSubview:self.innerViewController.view];
-}
-- (void)buttonTouchUpInsideView:(id)sender {
-    UIBarButtonItem* b = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonSelected:)];
-    self.innerViewController.navigationItem.leftBarButtonItem = b;
-    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.innerViewController];
-    
-    [self presentViewController:nav animated:YES completion:^(void){}];
-}
-
-
-#pragma mark -
+#pragma mark view lifecycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.frame = CGRectMake(10.0f, 10.0f, 320.0f, 425.0f);
     self.view.backgroundColor = [UIColor clearColor];
-
+    
     if (self.previewItemURL) {
         QLPreviewController* preview = [[QLPreviewController alloc] init];
         preview.dataSource = self;
@@ -206,6 +163,54 @@
     [self.view addGestureRecognizer:lpgr];
 }
 
+#pragma mark -
+#pragma mark Button Handlers
+- (void)buttonTouchUpInsideClipboard:(id)sender {
+    
+}
+- (void)buttonTouchUpInsideDelete:(id)sender {
+    DLog(@"%@", self.HTTPpath);
+    if (self.HTTPpath) {
+        [self.engine rm:self.HTTPpath
+           onCompletion:^(NSDictionary *task) {
+               NSArray *a = [self.HTTPpath componentsSeparatedByString:@"/"];
+               [self.parent removeObjectWithName:[a lastObject]];
+               [self.multiTableController removeFloatingView:self refresh:NO];
+        }
+                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                    DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason], [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
+        }];
+    }
+    
+}
+- (void)buttonTouchUpInsideExit:(id)sender {
+    [self.multiTableController removeFloatingView:self refresh:NO];
+}
+- (void)buttonTouchUpInsideMove:(id)sender {
+    
+}
+- (void)buttonTouchUpInsideNote:(id)sender {
+    [self swapNoteView];
+}
+
+- (void)backButtonSelected:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^(void){
+    }];
+    
+    self.innerViewController.view.frame = CGRectMake(22.0f, 60.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - 120.0f);
+    [self.view addSubview:self.innerViewController.view];
+}
+- (void)buttonTouchUpInsideView:(id)sender {
+    UIBarButtonItem* b = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonSelected:)];
+    self.innerViewController.navigationItem.leftBarButtonItem = b;
+    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.innerViewController];
+    
+    [self presentViewController:nav animated:YES completion:^(void){}];
+}
+
+
+#pragma mark -
+#pragma mark Gesture Recognition
 - (void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
     [self.multiTableController bringToFrontFloatingView:self];
     if ([gestureRecognizer state] == UIGestureRecognizerStateBegan || [gestureRecognizer state] == UIGestureRecognizerStateChanged) {
@@ -232,6 +237,56 @@
     if ((touch.view == self.viewButton)) { return NO; }
     
     return YES;
+}
+
+- (void)exposeHiddenView {
+    if (self.noteViewHidden == NO) { return; }
+    
+    UIViewController* blueBox = [[UIViewController alloc] init];
+    CGFloat boxWidth = self.view.frame.size.width - 10.5f;
+    CGFloat boxHeight = 300.0f;
+    CGFloat yCoord = (self.noteButton.frame.origin.y + self.noteButton.frame.size.height) - boxHeight - 10.0f;
+    CGFloat xCoord = (self.noteButton.frame.origin.x + (self.noteButton.frame.size.width/2)) - (boxWidth/2) - 2.25f;
+    
+    CGRect oldCoord = CGRectMake(xCoord, yCoord, boxWidth, boxHeight);
+    CGRect newCoord = CGRectMake(xCoord, yCoord + boxHeight - 50.0f, boxWidth, boxHeight);
+    // Frame now should be hidden behind the button
+    blueBox.view.backgroundColor = [UIColor blackColor];
+    blueBox.view.frame = oldCoord;
+    [self.view addSubview:blueBox.view];
+    [self.view sendSubviewToBack:blueBox.view];
+
+    [UIView beginAnimations:nil context:NULL];
+        blueBox.view.frame = newCoord;
+        [UIView setAnimationDuration:0.5];
+    [UIView commitAnimations];
+    
+    self.revealableView = blueBox;
+    self.noteViewHidden = NO;
+}
+- (void)hideExposedView {
+    if (self.noteViewHidden == YES) { return; }
+    
+    CGFloat w = self.revealableView.view.frame.size.width;
+    CGFloat h = self.revealableView.view.frame.size.height;
+    CGFloat y = self.revealableView.view.frame.origin.y - h + 50.0f;
+    CGFloat x = self.revealableView.view.frame.origin.x;
+    
+    [UIView animateWithDuration:0.5
+                     animations:^(void){
+                         self.revealableView.view.frame = CGRectMake(x, y, w, h);
+                     }completion:^(BOOL finished) {
+                         [self.revealableView.view removeFromSuperview];
+                         self.revealableView = nil;
+                         self.noteViewHidden = YES;
+                     }];
+}
+- (void)swapNoteView {
+    if (self.noteViewHidden == YES) {
+        [self exposeHiddenView];
+    } else {
+        [self hideExposedView];
+    }
 }
 
 #pragma mark -
