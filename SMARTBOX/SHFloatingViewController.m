@@ -8,6 +8,7 @@
 
 #import "SHFloatingViewController.h"
 #import "SHMultiTableViewController.h"
+#import "SHTableViewController.h"
 #import "SmartFileEngine.h"
 #import <QuickLook/QuickLook.h>
 
@@ -127,18 +128,22 @@
     
 }
 - (void)buttonTouchUpInsideDelete:(id)sender {
+    DLog(@"%@", self.HTTPpath);
     if (self.HTTPpath) {
         [self.engine rm:self.HTTPpath
            onCompletion:^(NSDictionary *task) {
-            //
-        } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-            //
+               NSArray *a = [self.HTTPpath componentsSeparatedByString:@"/"];
+               [self.parent removeObjectWithName:[a lastObject]];
+               [self.multiTableController removeFloatingView:self refresh:NO];
+        }
+                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                    DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason], [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
         }];
     }
     
 }
 - (void)buttonTouchUpInsideExit:(id)sender {
-    [self.multiTableController removeFloatingView:self];
+    [self.multiTableController removeFloatingView:self refresh:NO];
 }
 - (void)buttonTouchUpInsideMove:(id)sender {
     

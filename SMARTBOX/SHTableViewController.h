@@ -16,5 +16,7 @@
 @property (nonatomic) uint depth;
 
 - (void)pop;
+- (void)pull;
+- (void)removeObjectWithName:(NSString*) name;
 
 @end

@@ -108,6 +108,18 @@
     }];
 }
 
+
+- (void)removeObjectWithName:(NSString*) name
+{
+    int i = 0;
+    for (NSDictionary* element in self.list) {
+        if ( [name compare:[element objectForKey:@"name"]] == NSOrderedSame) {
+            [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
+        }
+        i++;
+    }
+}
+
 #pragma mark -
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -132,6 +144,10 @@
             }];
     
     [self.refreshControl endRefreshing];
+}
+
+- (void)pull {
+    [self refreshList];
 }
 
 #pragma mark -
@@ -173,9 +189,20 @@
         cell.textLabel.font = [UIFont boldSystemFontOfSize:21.0f];
         
         NSString* image = @"Folder.png";
-        DLog(@"%@", [element objectForKey:@"mime"]);
         
         if ([@"application/msword" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"DOC.png";
+        }
+        else if ([@"application/word" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"DOC.png";
+        }
+        else if ([@"application/x-msword" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"DOC.png";
+        }
+        else if ([@"application/vnd.ms-word" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"DOC.png";
+        }
+        else if ([@"application/vnd.openxmlformats-officedocument.wordprocessingml.document" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
             image = @"DOC.png";
         }
         else if ([@"image/jpeg" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
@@ -202,6 +229,9 @@
         else if ([@"application/vnd.ms-powerpoint" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
             image = @"PPT.png";
         }
+        else if ([@"application/vnd.openxmlformats-officedocument.presentationml.presentation" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"PPT.png";
+        }
         else if ([@"application/octet-stream" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
             image = @"PSD.png";
         }
@@ -215,6 +245,9 @@
             image = @"XLS.png";
         }
         else if ([@"application/x-msexcel" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"XLS.png";
+        }
+        else if ([@"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
             image = @"XLS.png";
         }
         else if ([@"application/x-compressed" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
@@ -274,7 +307,6 @@
                 onCompletion:^(NSData* downFile) {
                     // Save the file to the local cache
                     NSString* path = [[self cacheDirectoryName] stringByAppendingPathComponent:element[@"name"]];
-                    DLog(@"%@", path);
                     NSError* error;
                     [downFile writeToFile:path options:NSDataWritingAtomic error:&error];
                     if (error) {
@@ -284,7 +316,7 @@
                     SHFloatingViewController* floatingView = [[SHFloatingViewController alloc] initWithURL:[NSURL fileURLWithPath:path isDirectory:NO]];
                     floatingView.HTTPpath = file;
                     floatingView.engine = engine;
-                    [self.multiTableController addFloatingView:floatingView];
+                    [self.multiTableController addFloatingView:floatingView withSender:self];
                 }
                      onError:^(MKNetworkOperation* op, NSError* error) {
                          DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],

@@ -88,20 +88,29 @@
 }
 
 
-- (void)addFloatingView:(SHFloatingViewController *) floatingViewController {
+- (void)addFloatingView:(SHFloatingViewController *) floatingViewController withSender:(SHTableViewController *)parent{
     floatingViewController.multiTableController = self;
+    floatingViewController.parent = parent;
     self.floatingViews = [self.floatingViews arrayByAddingObject:floatingViewController];
     [self.view addSubview:floatingViewController.view];
 }
 
 
 - (void)removeFloatingView:(SHFloatingViewController *) floatingViewController {
+    [self removeFloatingView:floatingViewController refresh:NO];
+}
+
+
+- (void)removeFloatingView:(SHFloatingViewController *) floatingViewController refresh:(BOOL)flag {
     for (int i = 0; i < [self.floatingViews count]; i++) {
         if (self.floatingViews[i] == floatingViewController) {
             NSMutableArray* mutable = [self.floatingViews mutableCopy];
             [mutable removeObject:floatingViewController];
             self.floatingViews = mutable;
+//            floatingViewController.parent
+            if (flag) {[floatingViewController.parent pull];}
             [floatingViewController.view removeFromSuperview];
+            
             return;
         }
     }

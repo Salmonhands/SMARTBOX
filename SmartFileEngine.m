@@ -132,7 +132,10 @@
 {
     NSString* path = @"path/oper/remove/";
     
-    NSDictionary* params = [NSDictionary dictionaryWithObject:[file stringByReplacingOccurrencesOfString:@" " withString:@"%20"] forKey:@"path"];
+    //file = [file stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    //file = [file stringByReplacingOccurrencesOfString:@"/" withString:@"%2F"];
+    
+    NSDictionary* params = [NSDictionary dictionaryWithObject:file forKey:@"path"];
     MKNetworkOperation* op = [self operationWithPath:path
                                               params:params
                                           httpMethod:@"POST"

@@ -10,6 +10,7 @@
 
 @class SHMultiTableViewController;
 @class SmartFileEngine;
+@class SHTableViewController;
 
 @interface SHFloatingViewController : UIViewController <UIGestureRecognizerDelegate>
 
@@ -17,7 +18,7 @@
 @property (nonatomic, weak) SHMultiTableViewController* multiTableController;
 @property (nonatomic, strong) NSString* HTTPpath;
 @property (nonatomic, strong) SmartFileEngine* engine;
-
+@property (nonatomic, weak) SHTableViewController* parent;
 
 - (id)initWithURL:(NSURL *)url;
 

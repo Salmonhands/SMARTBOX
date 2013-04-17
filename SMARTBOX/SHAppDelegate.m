@@ -39,7 +39,7 @@
     
     SHFloatingViewController* f = [[SHFloatingViewController alloc] initWithURL:url];
     
-    [self.multiTableController addFloatingView:f];
+    [self.multiTableController addFloatingView:f withSender:nil];
     
     //[self.navigationController popToRootViewControllerAnimated:NO];
     //DLog(@"%@", url);

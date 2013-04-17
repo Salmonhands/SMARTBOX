@@ -23,4 +23,14 @@
     [self.multiTableController popViewController];
 }
 
+-(void)pull {
+    // Children can override this to pull new data
+    // aka pull from server
+}
+
+
+- (void)removeObjectWithName:(NSString*) name {
+    // Children can override
+}
+
 @end
