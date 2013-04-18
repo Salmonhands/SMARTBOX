@@ -17,6 +17,8 @@
     CGPoint _priorPoint;
 }
 
+@property (nonatomic, strong) UILongPressGestureRecognizer* longPressRecognizer;
+
 @property (nonatomic) BOOL noteViewHidden;
 
 @property (nonatomic, strong) UIImageView* bgImage;
@@ -131,6 +133,7 @@
     
     self.view.frame = CGRectMake(10.0f, 10.0f, 320.0f, 425.0f);
     self.view.backgroundColor = [UIColor clearColor];
+    self.view.autoresizesSubviews = NO;
     
     if (self.previewItemURL) {
         QLPreviewController* preview = [[QLPreviewController alloc] init];
@@ -157,10 +160,10 @@
     [self.view addSubview:self.noteButton];
     [self.view addSubview:self.viewButton];
     
-    UILongPressGestureRecognizer* lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    [lpgr setMinimumPressDuration:.1];
-    [lpgr setDelegate:self];
-    [self.view addGestureRecognizer:lpgr];
+    self.longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    [self.longPressRecognizer setMinimumPressDuration:.1];
+    [self.longPressRecognizer setDelegate:self];
+    [self.view addGestureRecognizer:self.longPressRecognizer];
 }
 
 #pragma mark -
@@ -250,6 +253,13 @@
     
     CGRect oldCoord = CGRectMake(xCoord, yCoord, boxWidth, boxHeight);
     CGRect newCoord = CGRectMake(xCoord, yCoord + boxHeight - 50.0f, boxWidth, boxHeight);
+    
+    CGRect buttonCoord = self.noteButton.frame;
+    buttonCoord.origin.y = buttonCoord.origin.y + boxHeight - 50.0f;
+    
+    CGRect fullCoord = self.view.frame;
+    fullCoord.size.height = fullCoord.size.height + boxHeight - 50.0f;
+    
     // Frame now should be hidden behind the button
     blueBox.view.backgroundColor = [UIColor blackColor];
     blueBox.view.frame = oldCoord;
@@ -257,8 +267,10 @@
     [self.view sendSubviewToBack:blueBox.view];
 
     [UIView beginAnimations:nil context:NULL];
-        blueBox.view.frame = newCoord;
-        [UIView setAnimationDuration:0.5];
+    blueBox.view.frame = newCoord;
+    self.noteButton.frame = buttonCoord;
+    self.view.frame = fullCoord;
+    [UIView setAnimationDuration:0.5];
     [UIView commitAnimations];
     
     self.revealableView = blueBox;
@@ -272,9 +284,17 @@
     CGFloat y = self.revealableView.view.frame.origin.y - h + 50.0f;
     CGFloat x = self.revealableView.view.frame.origin.x;
     
+    CGRect buttonCoord = self.noteButton.frame;
+    buttonCoord.origin.y = buttonCoord.origin.y - h + 50.0f;
+    
+    CGRect fullCoord = self.view.frame;
+    fullCoord.size.height = fullCoord.size.height -h + 50.0f;
+    
     [UIView animateWithDuration:0.5
                      animations:^(void){
                          self.revealableView.view.frame = CGRectMake(x, y, w, h);
+                         self.noteButton.frame = buttonCoord;
+                         self.view.frame = fullCoord;
                      }completion:^(BOOL finished) {
                          [self.revealableView.view removeFromSuperview];
                          self.revealableView = nil;
