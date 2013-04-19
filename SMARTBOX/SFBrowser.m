@@ -26,6 +26,9 @@
 
 @synthesize directory = _directory;
 
+
+#pragma mark -
+#pragma mark Accessors and Mutators
 - (void)setDisplayText:(NSString *)displayText {
     _textView.text = displayText;
 }
@@ -34,6 +37,17 @@
     return _textView.text;
 }
 
+- (void)setShowFoldersOnly:(BOOL)showFoldersOnly {
+    // Only need to reload if there is a change
+    if (_showFoldersOnly != showFoldersOnly) {
+        _showFoldersOnly = showFoldersOnly;
+        [self.tableView reloadData];
+    }
+}
+
+
+#pragma mark - 
+#pragma mark Initializers
 - (id)initWithDirectory:(NSString *)directory {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (!self) { return self; }
@@ -42,6 +56,9 @@
     self.showAddFolderRow = YES;
     return self;
 }
+
+#pragma mark -
+#pragma mark View Lifecycle
 
 - (void)viewDidLoad {
     self.tableView.opaque = NO;
@@ -152,22 +169,44 @@
 
 #pragma mark -
 #pragma mark UITableViewDataSource Methods
+const int selectSection = 0;
+const int filesSection = 1;
+const int addSection = 2;
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 1) {
-        return 1;
+    if (section == addSection) { return 1; }
+    if (section == selectSection && self.showFoldersOnly) { return 1; }
+    
+    if (section == filesSection) {
+        if (self.showFoldersOnly == NO) { return [_list count]; }
+        
+        int i = 0;
+        for (NSDictionary* e in _list) {
+            NSString* mime = [e objectForKey:@"mime"];
+            if ([mime compare:@"application/x-directory"] == NSOrderedSame) {
+                i++;
+            }
+        }
+        return i;
     }
     
-    return [_list count];
+    return 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) {
+    if (indexPath.section == selectSection) {
         return 40.0f;
     }
-    return 55.0f;
+    if (indexPath.section == filesSection) {
+        return 55.0f;
+    }
+    if (indexPath.section == addSection) {
+        return 40.0f;
+    }
+    
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -180,13 +219,38 @@
     }
     
     // Configure the cell
-    if (indexPath.section == 0) {
-        NSDictionary* element = _list[indexPath.row];
+    if (indexPath.section == selectSection) {
+        cell.textLabel.text = @"Select this folder";
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:21.0f];
+        cell.textLabel.alpha = 1.0f;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.imageView.image = nil;
+        
+    }
+    else if (indexPath.section == filesSection) {
+        NSDictionary* element;
+        if (self.showFoldersOnly) {
+            int i = 0;
+            for (NSDictionary* e in _list) {
+                NSString* mime = [e objectForKey:@"mime"];
+                if ([mime compare:@"application/x-directory"] == NSOrderedSame) {
+                    if (i == indexPath.row) {
+                        element = e;
+                        break;
+                    }
+                    i++;
+                }
+            }
+        } else {
+            element = _list[indexPath.row];
+        }
+        
         NSString* display = [NSString stringWithFormat:@"%@", [element objectForKey:@"name"]];
         
         cell.textLabel.text = display;
         cell.textLabel.alpha = 1.0f;
         cell.textLabel.font = [UIFont boldSystemFontOfSize:21.0f];
+        cell.textLabel.textAlignment = NSTextAlignmentLeft;
         
         NSString* image = @"Folder.png";
         
@@ -264,13 +328,17 @@
         }
         cell.imageView.image = [UIImage imageNamed:image];
         
-    } else if (indexPath.section == 1) {
+    }
+    else if (indexPath.section == addSection) {
         cell.textLabel.text = @"Add Folder";
         cell.textLabel.alpha = 0.6f;
         cell.textLabel.font = [UIFont systemFontOfSize:15.0f];
+        cell.textLabel.textAlignment = NSTextAlignmentLeft;
         cell.imageView.image = [UIImage imageNamed:@"addFolder.png"];
         
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.opaque = NO;
@@ -279,50 +347,56 @@
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return (indexPath.section == 0);
+    return (indexPath.section == filesSection);
 }
 
 #pragma mark -
 #pragma mark UITableViewDelegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) {
+    if (indexPath.section == selectSection) {
+        [self.multiTableController folderSelected:self.directory];
+    }
+    else if (indexPath.section == filesSection) {
+        if (indexPath.row >= [_list count]) { return; }
+        
+        NSDictionary* element = [_list objectAtIndex:indexPath.row];
+        if ([element[@"mime"] isEqual: @"application/x-directory"]) {
+            NSString* newDirectory = [NSString stringWithFormat:@"%@%@%@", self.directory, element[@"name"], @"/"];
+            SFBrowser* pushController = [[SFBrowser alloc] initWithDirectory:newDirectory];
+            pushController.showFoldersOnly = self.showFoldersOnly;
+            self.child = pushController;
+            [self.multiTableController pushViewController:pushController asChildOf:self animated:YES];
+        }
+        else {
+            NSString* file = [NSString stringWithFormat:@"%@%@", self.directory, element[@"name"]];
+            [engine downloadFile:file
+                onProgressChange:nil
+                    onCompletion:^(NSData* downFile) {
+                        // Save the file to the local cache
+                        NSString* path = [[self cacheDirectoryName] stringByAppendingPathComponent:element[@"name"]];
+                        NSError* error;
+                        [downFile writeToFile:path options:NSDataWritingAtomic error:&error];
+                        if (error) {
+                            DLog(@"%@", [error localizedDescription]);
+                        }
+                        
+                        SHFloatingViewController* floatingView = [[SHFloatingViewController alloc] initWithURL:[NSURL fileURLWithPath:path isDirectory:NO]];
+                        floatingView.HTTPpath = file;
+                        floatingView.engine = engine;
+                        [self.multiTableController addFloatingView:floatingView withSender:self];
+                    }
+                         onError:^(MKNetworkOperation* op, NSError* error) {
+                             DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],
+                                  [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
+                         }];
+        }
+    }
+    else if (indexPath.section == addSection) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self makeDirectory];
-        return;
     }
-    
-    if (indexPath.section == 0 && indexPath.row >= [_list count]) { return; }
 
-    NSDictionary* element = [_list objectAtIndex:indexPath.row];
-    if ([element[@"mime"] isEqual: @"application/x-directory"]) {
-        NSString* newDirectory = [NSString stringWithFormat:@"%@%@%@", self.directory, element[@"name"], @"/"];
-        SFBrowser* pushController = [[SFBrowser alloc] initWithDirectory:newDirectory];
-        self.child = pushController;
-        [self.multiTableController pushViewController:pushController asChildOf:self animated:YES];
-    }
-    else {
-        NSString* file = [NSString stringWithFormat:@"%@%@", self.directory, element[@"name"]];
-        [engine downloadFile:file
-            onProgressChange:nil
-                onCompletion:^(NSData* downFile) {
-                    // Save the file to the local cache
-                    NSString* path = [[self cacheDirectoryName] stringByAppendingPathComponent:element[@"name"]];
-                    NSError* error;
-                    [downFile writeToFile:path options:NSDataWritingAtomic error:&error];
-                    if (error) {
-                        DLog(@"%@", [error localizedDescription]);
-                    }
-                    
-                    SHFloatingViewController* floatingView = [[SHFloatingViewController alloc] initWithURL:[NSURL fileURLWithPath:path isDirectory:NO]];
-                    floatingView.HTTPpath = file;
-                    floatingView.engine = engine;
-                    [self.multiTableController addFloatingView:floatingView withSender:self];
-                }
-                     onError:^(MKNetworkOperation* op, NSError* error) {
-                         DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],
-                              [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
-                     }];
-    }
+
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -333,7 +407,7 @@
              NSMutableArray* a = [_list mutableCopy];
              [a removeObjectAtIndex:indexPath.row];
              _list = (NSArray*)a;
-             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+             [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:indexPath.row inSection:filesSection]] withRowAnimation:UITableViewRowAnimationAutomatic];
              [self.child pop];
          }onError:^(MKNetworkOperation* op, NSError* error) {
                   DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],

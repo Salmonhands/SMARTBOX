@@ -20,6 +20,7 @@
 @property (nonatomic, strong) SmartFileEngine* engine;
 @property (nonatomic, weak) SHTableViewController* parent;
 @property (nonatomic, strong) UIViewController* revealableView;
+@property (nonatomic, strong) NSURL* previewItemURL;
 
 - (id)initWithURL:(NSURL *)url;
 

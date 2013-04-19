@@ -23,6 +23,7 @@ extern NSString* const kMIMEAPPLICATIONJSON;
 @property (strong, nonatomic) NSString* directory;
 @property (nonatomic, strong) NSArray* list;
 @property (nonatomic) BOOL showAddFolderRow;
+@property (nonatomic) BOOL showFoldersOnly;
 
 - (id)initWithDirectory:(NSString*) directory;
 

@@ -29,7 +29,9 @@
 @property (nonatomic, strong, readonly) UIButton* noteButton;
 @property (nonatomic, strong, readonly) UIButton* viewButton;
 
-@property (nonatomic, strong) NSURL* previewItemURL;
+@property (nonatomic, strong) UIDocumentInteractionController* doc;
+
+@property (nonatomic) CGRect innerFrame;
 
 @end
 
@@ -144,9 +146,10 @@
         preview.currentPreviewItemIndex = 0;
         self.innerViewController = preview;
     }
-    self.innerViewController.view.frame = CGRectMake(22.0f, 60.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - 120.0f);
+    self.innerFrame = CGRectMake(22.0f, 60.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - 120.0f);
+    self.innerViewController.view.frame = self.innerFrame;
     
-    self.bgImage =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailLayoutBlank.png"]];
+    self.bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailLayoutBlank.png"]];
     self.bgImage.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height);
     
     [self.view addSubview:self.bgImage];
@@ -157,7 +160,7 @@
     [self.view addSubview:self.deleteButton];
     [self.view addSubview:self.exitButton];
     [self.view addSubview:self.moveButton];
-    [self.view addSubview:self.noteButton];
+    //[self.view addSubview:self.noteButton];
     [self.view addSubview:self.viewButton];
     
     self.longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
@@ -169,6 +172,10 @@
 #pragma mark -
 #pragma mark Button Handlers
 - (void)buttonTouchUpInsideClipboard:(id)sender {
+    self.doc = [UIDocumentInteractionController interactionControllerWithURL:self.previewItemURL];
+    [self.doc presentOpenInMenuFromRect:CGRectMake(-15.0f, -10.0f, 50.0f, 50.0f)
+                            inView:self.clipboardShareButton
+                          animated:YES];
     
 }
 - (void)buttonTouchUpInsideDelete:(id)sender {
@@ -190,17 +197,17 @@
     [self.multiTableController removeFloatingView:self refresh:NO];
 }
 - (void)buttonTouchUpInsideMove:(id)sender {
-    
+    [self.multiTableController selectFolderForFloatingView:self];
 }
 - (void)buttonTouchUpInsideNote:(id)sender {
-    [self swapNoteView];
+    //[self swapNoteView];
 }
 
 - (void)backButtonSelected:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^(void){
     }];
     
-    self.innerViewController.view.frame = CGRectMake(22.0f, 60.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - 120.0f);
+    self.innerViewController.view.frame = self.innerFrame;
     [self.view addSubview:self.innerViewController.view];
 }
 - (void)buttonTouchUpInsideView:(id)sender {

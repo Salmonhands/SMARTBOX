@@ -24,6 +24,7 @@
 		463B30B816F20B28009FFA3E /* SmartFileEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 463B30B716F20B28009FFA3E /* SmartFileEngine.m */; };
 		463B30BA16F2573D009FFA3E /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463B30B916F2573C009FFA3E /* QuickLook.framework */; };
 		465DD038170F7FE6003658AE /* SFSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 465DD037170F7FE6003658AE /* SFSaver.m */; };
+		4682A6E11720E9A800512B8C /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 4682A6E01720E9A800512B8C /* gradient.png */; };
 		46DA7DC6171934370072B3D0 /* addFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 46DA7DC4171934370072B3D0 /* addFolder.png */; };
 		46DA7DC7171934370072B3D0 /* Folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 46DA7DC5171934370072B3D0 /* Folder.png */; };
 		46DA7DC917194D700072B3D0 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 46DA7DC817194D700072B3D0 /* background.png */; };
@@ -88,6 +89,7 @@
 		463B30B916F2573C009FFA3E /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		465DD036170F7FE6003658AE /* SFSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSaver.h; sourceTree = "<group>"; };
 		465DD037170F7FE6003658AE /* SFSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSaver.m; sourceTree = "<group>"; };
+		4682A6E01720E9A800512B8C /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
 		46DA7DC4171934370072B3D0 /* addFolder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addFolder.png; sourceTree = "<group>"; };
 		46DA7DC5171934370072B3D0 /* Folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Folder.png; sourceTree = "<group>"; };
 		46DA7DC817194D700072B3D0 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 		46ED0CF81719A9060043545E /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				4682A6E01720E9A800512B8C /* gradient.png */,
 				46DA7DC817194D700072B3D0 /* background.png */,
 				461B2CF91718EBA1003EDA9A /* Icon@2x.png */,
 				461B2CF71718EB9B003EDA9A /* Icon.png */,
@@ -465,6 +468,7 @@
 				46ED0CF417198C2D0043545E /* noteT.png in Resources */,
 				46ED0CF517198C2D0043545E /* view.png in Resources */,
 				46ED0CF617198C2D0043545E /* viewT.png in Resources */,
+				4682A6E11720E9A800512B8C /* gradient.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,9 +25,7 @@
     self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:rootView];
     UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
     imageView.frame = self.window.frame;
-    
-    [self.multiTableController.view addSubview:imageView ];
-    [self.multiTableController.view sendSubviewToBack:imageView ];
+    self.multiTableController.bgImageView = imageView;
     
     [self.window setRootViewController:self.multiTableController];
     [self.window makeKeyAndVisible];

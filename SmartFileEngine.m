@@ -154,4 +154,32 @@
     return op;
 }
 
+- (MKNetworkOperation*) upload:(NSString*) file
+                            to:(NSString*) directory
+                  onCompletion:(taskResponseBlock) completionBlock
+                       onError:(MKNKResponseErrorBlock) errorBlock
+{
+    NSString* path = @"path/data";
+    DLog(@"PATH: %@", path);
+    path = [path stringByAppendingString:directory];
+    
+    MKNetworkOperation* op = [self operationWithPath:path
+                                              params:nil
+                                          httpMethod:@"POST"
+                                                 ssl:YES];
+    DLog(@"FILE: %@", file);
+    [op addFile:file forKey:@"file1"];
+    [op setFreezable:YES];
+    
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation) {
+        DLog(@"cCOMPLETE: %@", completedOperation);
+    }errorHandler:^(MKNetworkOperation *erroredOperation, NSError *error) {
+        errorBlock(erroredOperation, error);
+    }];
+    
+    [self enqueueOperation:op];
+    return op;
+    
+}
+
 @end

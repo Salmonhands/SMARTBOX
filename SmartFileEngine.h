@@ -12,6 +12,7 @@ typedef void (^lsResponseBlock)(NSArray* list);
 typedef void (^dlResponseBlock)(NSData* file);
 typedef void (^mdResponseBlock)(NSDictionary* meta);
 typedef void (^rmResponseBlock)(NSDictionary* task);
+typedef void (^taskResponseBlock)(NSString* task);
 
 @interface SmartFileEngine : MKNetworkEngine
 
@@ -35,5 +36,10 @@ typedef void (^rmResponseBlock)(NSDictionary* task);
 - (MKNetworkOperation*) rm:(NSString*) file
               onCompletion:(rmResponseBlock) completionBlock
                    onError:(MKNKResponseErrorBlock) errorBlock;
+
+- (MKNetworkOperation*) upload:(NSString*) file
+                            to:(NSString*) directory
+                  onCompletion:(taskResponseBlock) completionBlock
+                       onError:(MKNKResponseErrorBlock) errorBlock;
 
 @end
