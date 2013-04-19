@@ -252,9 +252,12 @@ const int addSection = 2;
         cell.textLabel.font = [UIFont boldSystemFontOfSize:21.0f];
         cell.textLabel.textAlignment = NSTextAlignmentLeft;
         
-        NSString* image = @"Folder.png";
+        NSString* image = @"UNK.png";
         
-        if ([@"application/msword" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+        if ([@"application/x-directory" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
+            image = @"Folder.png";
+        }
+        else if ([@"application/msword" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {
             image = @"DOC.png";
         }
         else if ([@"application/word" compare:[element objectForKey:@"mime"]] == NSOrderedSame) {

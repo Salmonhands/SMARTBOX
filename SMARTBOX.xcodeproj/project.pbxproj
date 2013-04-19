@@ -21,6 +21,7 @@
 		461B2D1A17192913003EDA9A /* PSD.png in Resources */ = {isa = PBXBuildFile; fileRef = 461B2D1217192912003EDA9A /* PSD.png */; };
 		461B2D1B17192913003EDA9A /* XLS.png in Resources */ = {isa = PBXBuildFile; fileRef = 461B2D1317192913003EDA9A /* XLS.png */; };
 		461B2D1C17192913003EDA9A /* ZIP.png in Resources */ = {isa = PBXBuildFile; fileRef = 461B2D1417192913003EDA9A /* ZIP.png */; };
+		4630F3421720EE2F005E46CE /* UNK.png in Resources */ = {isa = PBXBuildFile; fileRef = 4630F3411720EE2F005E46CE /* UNK.png */; };
 		463B30B816F20B28009FFA3E /* SmartFileEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 463B30B716F20B28009FFA3E /* SmartFileEngine.m */; };
 		463B30BA16F2573D009FFA3E /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463B30B916F2573C009FFA3E /* QuickLook.framework */; };
 		465DD038170F7FE6003658AE /* SFSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 465DD037170F7FE6003658AE /* SFSaver.m */; };
@@ -84,6 +85,7 @@
 		461B2D1217192912003EDA9A /* PSD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PSD.png; sourceTree = "<group>"; };
 		461B2D1317192913003EDA9A /* XLS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = XLS.png; sourceTree = "<group>"; };
 		461B2D1417192913003EDA9A /* ZIP.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ZIP.png; sourceTree = "<group>"; };
+		4630F3411720EE2F005E46CE /* UNK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UNK.png; sourceTree = "<group>"; };
 		463B30B616F20B28009FFA3E /* SmartFileEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartFileEngine.h; sourceTree = "<group>"; };
 		463B30B716F20B28009FFA3E /* SmartFileEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartFileEngine.m; sourceTree = "<group>"; };
 		463B30B916F2573C009FFA3E /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
@@ -193,6 +195,7 @@
 				461B2D0D17192912003EDA9A /* DOC.png */,
 				461B2D0E17192912003EDA9A /* JPG.png */,
 				461B2D0F17192912003EDA9A /* MOV.png */,
+				4630F3411720EE2F005E46CE /* UNK.png */,
 				461B2D1017192912003EDA9A /* PDF.png */,
 				461B2D1117192912003EDA9A /* PPT.png */,
 				461B2D1217192912003EDA9A /* PSD.png */,
@@ -469,6 +472,7 @@
 				46ED0CF517198C2D0043545E /* view.png in Resources */,
 				46ED0CF617198C2D0043545E /* viewT.png in Resources */,
 				4682A6E11720E9A800512B8C /* gradient.png in Resources */,
+				4630F3421720EE2F005E46CE /* UNK.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
