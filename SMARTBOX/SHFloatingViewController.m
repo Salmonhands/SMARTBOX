@@ -10,7 +10,6 @@
 #import "SHMultiTableViewController.h"
 #import "SHTableViewController.h"
 #import "SmartFileEngine.h"
-#import <QuickLook/QuickLook.h>
 
 @interface SHFloatingViewController ()  <UIGestureRecognizerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
 {
@@ -31,7 +30,7 @@
 
 @property (nonatomic, strong) UIDocumentInteractionController* doc;
 
-@property (nonatomic) CGRect innerFrame;
+@property (nonatomic, readonly) CGRect innerFrame;
 
 @end
 
@@ -118,12 +117,45 @@
     
 }
 
+- (CGRect)innerFrame {
+    return CGRectMake(22.0f, 60.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - 120.0f);
+}
+
+- (UIViewController *)innerViewController {
+    if (_innerViewController != nil) { return _innerViewController; }
+    
+    _innerViewController = [[QLPreviewController alloc] init];
+    _innerViewController.dataSource = self;
+    _innerViewController.delegate = self;
+    _innerViewController.currentPreviewItemIndex = 0;
+    _innerViewController.view.frame = self.innerFrame;
+    return _innerViewController;
+}
+
+-(UIImageView *)bgImage {
+    if (_bgImage) { return _bgImage; }
+    
+    _bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailLayoutBlank.png"]];
+    _bgImage.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height);
+    return _bgImage;
+}
+
+-(UILongPressGestureRecognizer *)longPressRecognizer {
+    if (_longPressRecognizer) { return  _longPressRecognizer; }
+    
+    _longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    _longPressRecognizer.minimumPressDuration = .1;
+    _longPressRecognizer.delegate = self;
+    return _longPressRecognizer;
+}
+
 #pragma mark -
 #pragma mark Initializers
 - (id)initWithURL:(NSURL *)url {
     self = [super init];
     if (self) {
         self.previewItemURL = url;
+        self.fileName = [[[[url absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
         self.noteViewHidden = YES;
     }
     return self;
@@ -137,25 +169,11 @@
     self.view.backgroundColor = [UIColor clearColor];
     self.view.autoresizesSubviews = NO;
     
-    if (self.previewItemURL) {
-        QLPreviewController* preview = [[QLPreviewController alloc] init];
-        preview.dataSource = self;
-        preview.delegate = self;
-        
-        // start previewing the document at the current section index
-        preview.currentPreviewItemIndex = 0;
-        self.innerViewController = preview;
-    }
-    self.innerFrame = CGRectMake(22.0f, 60.0f, self.view.frame.size.width - 40.0f, self.view.frame.size.height - 120.0f);
-    self.innerViewController.view.frame = self.innerFrame;
-    
-    self.bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailLayoutBlank.png"]];
-    self.bgImage.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height);
-    
+    // Add views
     [self.view addSubview:self.bgImage];
-    
     [self.view addSubview:self.innerViewController.view];
     
+    // Add buttons
     [self.view addSubview:self.clipboardShareButton];
     [self.view addSubview:self.deleteButton];
     [self.view addSubview:self.exitButton];
@@ -163,9 +181,7 @@
     //[self.view addSubview:self.noteButton];
     [self.view addSubview:self.viewButton];
     
-    self.longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    [self.longPressRecognizer setMinimumPressDuration:.1];
-    [self.longPressRecognizer setDelegate:self];
+    // Add gesture recognizers
     [self.view addGestureRecognizer:self.longPressRecognizer];
 }
 
