@@ -8,7 +8,6 @@
 
 #import "SHAppDelegate.h"
 #import "SFBrowser.h"
-#import "SFSaver.h"
 #import "SHMultiTableViewController.h"
 #import "SHFloatingViewController.h"
 
@@ -17,11 +16,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    SFBrowser* rootView = [[SFBrowser alloc] initWithDirectory:@"/"];
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:rootView];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    //[self.window setRootViewController:self.navigationController];
+    
+    SFBrowser* rootView = [[SFBrowser alloc] initWithDirectory:@"/"];
     self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:rootView];
     UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
     imageView.frame = self.window.frame;
@@ -36,17 +34,7 @@
 {
     
     SHFloatingViewController* f = [[SHFloatingViewController alloc] initWithURL:url];
-    
     [self.multiTableController addFloatingView:f withSender:nil];
-    
-    //[self.navigationController popToRootViewControllerAnimated:NO];
-    //DLog(@"%@", url);
-    //[self.navRootViewController saveURL:];
-    
-   // if (self.saveRootController != nil) { return NO; } // TODO: Open another while saving; not sure how to handle
-    
-   // self.saveRootController = [[SFSaver alloc] initWithDirectory:@"/"];
-   // [self.navigationController pushViewController:self.saveRootController animated:NO];
     
     return YES;
 }

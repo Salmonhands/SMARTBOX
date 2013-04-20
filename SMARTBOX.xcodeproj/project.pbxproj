@@ -24,7 +24,6 @@
 		4630F3421720EE2F005E46CE /* UNK.png in Resources */ = {isa = PBXBuildFile; fileRef = 4630F3411720EE2F005E46CE /* UNK.png */; };
 		463B30B816F20B28009FFA3E /* SmartFileEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 463B30B716F20B28009FFA3E /* SmartFileEngine.m */; };
 		463B30BA16F2573D009FFA3E /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463B30B916F2573C009FFA3E /* QuickLook.framework */; };
-		465DD038170F7FE6003658AE /* SFSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 465DD037170F7FE6003658AE /* SFSaver.m */; };
 		4682A6E11720E9A800512B8C /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 4682A6E01720E9A800512B8C /* gradient.png */; };
 		46DA7DC6171934370072B3D0 /* addFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 46DA7DC4171934370072B3D0 /* addFolder.png */; };
 		46DA7DC7171934370072B3D0 /* Folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 46DA7DC5171934370072B3D0 /* Folder.png */; };
@@ -89,8 +88,6 @@
 		463B30B616F20B28009FFA3E /* SmartFileEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartFileEngine.h; sourceTree = "<group>"; };
 		463B30B716F20B28009FFA3E /* SmartFileEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartFileEngine.m; sourceTree = "<group>"; };
 		463B30B916F2573C009FFA3E /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
-		465DD036170F7FE6003658AE /* SFSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSaver.h; sourceTree = "<group>"; };
-		465DD037170F7FE6003658AE /* SFSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSaver.m; sourceTree = "<group>"; };
 		4682A6E01720E9A800512B8C /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
 		46DA7DC4171934370072B3D0 /* addFolder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addFolder.png; sourceTree = "<group>"; };
 		46DA7DC5171934370072B3D0 /* Folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Folder.png; sourceTree = "<group>"; };
@@ -340,8 +337,6 @@
 				46FAAEE016E5215D0020CAAD /* SHAppDelegate.m */,
 				46FAAF1C16E52F130020CAAD /* SFBrowser.h */,
 				46FAAF1D16E52F130020CAAD /* SFBrowser.m */,
-				465DD036170F7FE6003658AE /* SFSaver.h */,
-				465DD037170F7FE6003658AE /* SFSaver.m */,
 				461B2CFB1718EF20003EDA9A /* SHMultiTableViewController.h */,
 				461B2CFC1718EF20003EDA9A /* SHMultiTableViewController.m */,
 				461B2D0A17191149003EDA9A /* SHTableViewController.h */,
@@ -498,7 +493,6 @@
 				46F3F0DC16EF941100E8889F /* MKNetworkOperation.m in Sources */,
 				46F3F0DD16EF941100E8889F /* Reachability.m in Sources */,
 				463B30B816F20B28009FFA3E /* SmartFileEngine.m in Sources */,
-				465DD038170F7FE6003658AE /* SFSaver.m in Sources */,
 				461B2CFD1718EF21003EDA9A /* SHMultiTableViewController.m in Sources */,
 				461B2D0C17191149003EDA9A /* SHTableViewController.m in Sources */,
 				46ED0CDC171989030043545E /* SHFloatingViewController.m in Sources */,

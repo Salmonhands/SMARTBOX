@@ -14,7 +14,6 @@
     
     UITextView* _textView;
     SmartFileEngine* engine;
-    NSURL* _previewItemURL;
 }
 
 @property (nonatomic, strong) NSString* displayText;
@@ -24,18 +23,9 @@
 
 @implementation SFBrowser
 
-@synthesize directory = _directory;
-
 
 #pragma mark -
 #pragma mark Accessors and Mutators
-- (void)setDisplayText:(NSString *)displayText {
-    _textView.text = displayText;
-}
-
-- (NSString*)displayText {
-    return _textView.text;
-}
 
 - (void)setShowFoldersOnly:(BOOL)showFoldersOnly {
     // Only need to reload if there is a change
@@ -45,14 +35,13 @@
     }
 }
 
-
 #pragma mark - 
 #pragma mark Initializers
 - (id)initWithDirectory:(NSString *)directory {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (!self) { return self; }
     
-    self.directory = directory;
+    _directory = directory;
     self.showAddFolderRow = YES;
     return self;
 }
@@ -425,9 +414,6 @@ const int addSection = 2;
     NSString *documentsDirectory = paths[0];
     return documentsDirectory;
 }
-
-
-
 
 
 @end
