@@ -8,28 +8,109 @@
 
 #import "SHLoginViewController.h"
 
-@interface SHLoginViewController ()
+@interface SHLoginViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView* loginWindow;
+@property (nonatomic, strong) UIImageView* bgImage;
+@property (nonatomic, strong) UITextField* usernameField;
+@property (nonatomic, strong) UITextField* passwordField;
+@property (nonatomic, strong) UIButton* submitButton;
+
 @property (nonatomic, strong) UIView* backgroundColorView;
+
+@property (nonatomic, readonly) float width;
+@property (nonatomic, readonly) float height;
+
+- (void)submitButtonPressed:(id) sender;
 
 @end
 
 @implementation SHLoginViewController
 
+- (float)width {
+    return 270.0f;
+}
+
+- (float)height {
+    return 350.0f;
+}
+
 - (UIView *)loginWindow {
     if (_loginWindow) { return _loginWindow; }
     
-    CGFloat w = 270.0f;
-    CGFloat h = 350.0f;
+    CGFloat w = self.width;
+    CGFloat h = self.height;
     _loginWindow = [[UIView alloc] initWithFrame:CGRectMake((self.view.frame.size.width - w)/2, self.view.frame.size.height + h, w, h)];
     
-    // Add the background image
-    UIImageView* bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailLayoutBlank.png"]];
-    bgImage.frame = CGRectMake(0.0f, 0.0f, 270.0f, 350.0f);
-    [_loginWindow addSubview:bgImage];
+    // Add the background image and fields
+    [_loginWindow addSubview:self.bgImage];
+    [_loginWindow addSubview:self.usernameField];
+    [_loginWindow addSubview:self.passwordField];
+    [_loginWindow addSubview:self.submitButton];
     
     return _loginWindow;
+}
+
+- (UIImageView *)bgImage {
+    if (_bgImage) { return _bgImage; }
+    
+    _bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"detailLayoutBlank.png"]];
+    _bgImage.frame = CGRectMake(0.0f, 0.0f, self.width, self.height);
+    return _bgImage;
+}
+
+- (UITextField *)usernameField {
+    if (_usernameField) { return _usernameField; }
+    
+    CGFloat x = 40.0f;
+    CGFloat y = 30.0f;
+    CGFloat w = self.width - x*2;
+    CGFloat h = 40.0f;
+    _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(x, y, w, h)];
+    
+    _usernameField.backgroundColor = [UIColor whiteColor];
+    _usernameField.text = @"Username";
+    _usernameField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _usernameField.delegate = self;
+    
+    
+    return _usernameField;
+}
+
+- (UITextField *)passwordField {
+    if (_passwordField) { return _passwordField; }
+    
+    CGFloat x = 40.0f;
+    CGFloat y = 80.0f;
+    CGFloat w = self.width - x*2;
+    CGFloat h = 40.0f;
+    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(x, y, w, h)];
+    
+    _passwordField.secureTextEntry = YES;
+    _passwordField.backgroundColor = [UIColor whiteColor];
+    _passwordField.text = @"Password";
+    _passwordField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _passwordField.delegate = self;
+    
+    return _passwordField;
+}
+
+- (UIButton *)submitButton {
+    if (_submitButton) { return _submitButton; }
+    
+    CGFloat x = 40.0f;
+    CGFloat y = 140.0f;
+    CGFloat w = self.width - x*2;
+    CGFloat h = 40.0f;
+    _submitButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _submitButton.frame = CGRectMake(x, y, w, h);
+    
+    [_submitButton setTitle:@"Login" forState:UIControlStateNormal];
+    [_submitButton setTitle:@"Login" forState:UIControlStateSelected];
+    [_submitButton setTitle:@"Login" forState:UIControlStateHighlighted];
+    _submitButton.titleLabel.font = [UIFont boldSystemFontOfSize:19.0f];
+    
+    return _submitButton;
 }
 
 - (UIView *)backgroundColorView {
@@ -50,15 +131,44 @@
 
 
 - (void)animateLoginView {
+    CGFloat x = self.loginWindow.frame.origin.x;
+    CGFloat y = self.loginWindow.frame.size.height / 4;
+    CGFloat w = self.loginWindow.frame.size.width;
+    CGFloat h = self.loginWindow.frame.size.height;
+    
     [UIView animateWithDuration:0.5f animations:^{
-        CGFloat x = self.loginWindow.frame.origin.x;
-        CGFloat y = self.loginWindow.frame.size.height / 4;
-        CGFloat w = self.loginWindow.frame.size.width;
-        CGFloat h = self.loginWindow.frame.size.height;
         self.loginWindow.frame = CGRectMake(x, y, w, h);
     } completion:^(BOOL finished) {
         //done
     }];
+}
+
+- (void) submitButtonPressed:(id)sender {
+    
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField == self.usernameField) {
+        if ([textField.text compare:@"Username"] == NSOrderedSame) {
+            textField.text = @"";
+        }
+    }
+    if (textField == self.passwordField) {
+        if ([textField.text compare:@"Password"] == NSOrderedSame) {
+            textField.text = @"";
+        }
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if ([textField.text compare: @""] == NSOrderedSame) {
+        if (textField == self.usernameField) {
+            self.usernameField.text = @"Username";
+        } else if(textField == self.passwordField) {
+            self.passwordField.text = @"Password";
+        }
+    }
+
 }
 
 @end
