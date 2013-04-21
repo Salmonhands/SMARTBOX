@@ -13,6 +13,9 @@
 #import "SmartFileEngine.h"
 
 @interface SHMultiTableViewController () <UIScrollViewDelegate>
+{
+    NSString* _username;
+}
 
 @property (nonatomic, strong) UIScrollView* scrollView;
 @property (nonatomic, strong) UIView* headerView;
@@ -23,6 +26,8 @@
 @property (nonatomic, strong) UIImageView* headerBG;
 @property (nonatomic, strong) UILabel* headerLabel;
 @property (nonatomic, strong) SHFloatingViewController* folderSelectionRecipient;
+
+@property (nonatomic, readonly) NSString* username;
 
 - (void)setFoldersOnlyON;
 - (void)setFoldersOnlyOFF;
@@ -82,6 +87,12 @@
                                         customHeaderFields:headerFields];
     }
     return _engine;
+}
+
+-(NSString *)username {
+    if (_username) { return _username; }
+    
+    //need engine;
 }
 
 #pragma mark - 
