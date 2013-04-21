@@ -133,6 +133,8 @@
     _innerViewController.currentPreviewItemIndex = 0;
     _innerViewController.view.frame = self.innerFrame;
     
+    _innerViewController.title = self.fileName;
+    
     UIBarButtonItem* b = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonSelected:)];
     _innerViewController.navigationItem.leftBarButtonItem = b;
     
