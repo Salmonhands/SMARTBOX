@@ -33,6 +33,7 @@
 @property (nonatomic, readonly) CGRect innerFrame;
 
 @property (nonatomic, strong) UIViewController* revealableView;
+@property (nonatomic, strong) UILabel* headerLabel;
 
 @end
 
@@ -178,6 +179,20 @@
     if (_docInteractionController) { return _docInteractionController; }
     
     _docInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.previewItemURL];
+    return _docInteractionController;
+}
+
+-(UILabel *)headerLabel {
+    if (_headerLabel) { return _headerLabel; }
+    
+    CGRect frame = CGRectMake(40.0f, 10.0f, self.view.frame.size.width - 80.0f, 40.0f);
+    _headerLabel = [[UILabel alloc] initWithFrame:frame];
+    _headerLabel.text = self.fileName;
+    _headerLabel.textAlignment = NSTextAlignmentCenter;
+    _headerLabel.font = [UIFont boldSystemFontOfSize:21.0f];
+    _headerLabel.textColor = [UIColor whiteColor];
+    _headerLabel.backgroundColor = [UIColor clearColor];
+    return _headerLabel;
 }
 
 #pragma mark -
@@ -202,6 +217,7 @@
     // Add views
     [self.view addSubview:self.bgImage];
     [self.view addSubview:self.innerViewController.view];
+    [self.view addSubview:self.headerLabel];
     
     // Add buttons
     [self.view addSubview:self.clipboardShareButton];
@@ -359,14 +375,7 @@
 // Returns the number of items that the preview controller should preview
 - (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)previewController
 {
-    NSInteger numToPreview = 1;
-    
-    return numToPreview;
-}
-
-- (void)previewControllerDidDismiss:(QLPreviewController *)controller
-{
-    // if the preview dismissed (done button touched), use this method to post-process previews
+    return 1;
 }
 
 // returns the item that the preview controller should preview
