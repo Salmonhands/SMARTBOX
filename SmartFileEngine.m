@@ -9,6 +9,9 @@
 #import "SmartFileEngine.h"
 #import "NSString+Encode.h"
 
+#define kCLIENTTOKEN @"cmS726SZ4HBPkhEAjtuXmAfbY9cs6X"
+#define kCLIENTSECRET @"t3vrC46YPRLtqVgpAL65tUlwfVLN5v"
+
 @implementation SmartFileEngine
 
 

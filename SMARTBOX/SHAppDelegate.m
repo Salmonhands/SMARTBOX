@@ -26,22 +26,20 @@
 
 // For testing
 - (BOOL)requiresLogin {
-    return YES;
+    return NO;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    //SFBrowser* rootView = [[SFBrowser alloc] initWithDirectory:@"/"];
-    //self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:rootView];
-    //self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:nil];
+    SFBrowser* rootView = [[SFBrowser alloc] initWithDirectory:@"/"];
+    self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:rootView];
     UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
     imageView.frame = self.window.frame;
-    //self.multiTableController.bgImageView = imageView;
+    self.multiTableController.bgImageView = imageView;
     
-    //self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.multiTableController];
-    self.navigationController = [[UINavigationController alloc] init];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.multiTableController];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [self.navigationController.view addSubview:imageView];
     [self.navigationController.view sendSubviewToBack:imageView];
