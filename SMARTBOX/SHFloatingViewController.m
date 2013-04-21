@@ -28,9 +28,11 @@
 @property (nonatomic, strong, readonly) UIButton* noteButton;
 @property (nonatomic, strong, readonly) UIButton* viewButton;
 
-@property (nonatomic, strong) UIDocumentInteractionController* doc;
+@property (nonatomic, strong) UIDocumentInteractionController* docInteractionController;
 
 @property (nonatomic, readonly) CGRect innerFrame;
+
+@property (nonatomic, strong) UIViewController* revealableView;
 
 @end
 
@@ -157,6 +159,27 @@
     return [[[[self.previewItemURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
 }
 
+- (UIViewController *)revealableView {
+    if (_revealableView) { return _revealableView; }
+    
+    _revealableView = [[UIViewController alloc] init];
+    
+    CGFloat boxWidth = self.view.frame.size.width - 10.5f;;
+    CGFloat yCoord = (self.noteButton.frame.origin.y + self.noteButton.frame.size.height) - 300.0f - 10.0f;
+    CGFloat xCoord = (self.noteButton.frame.origin.x + (self.noteButton.frame.size.width/2)) - (boxWidth/2) - 2.25f;
+    CGRect oldCoord = CGRectMake(xCoord, yCoord, boxWidth, 300.0f);
+    
+    _revealableView.view.frame = oldCoord;
+    _revealableView.view.backgroundColor = [UIColor blackColor];
+    return _revealableView;
+}
+
+-(UIDocumentInteractionController *)docInteractionController {
+    if (_docInteractionController) { return _docInteractionController; }
+    
+    _docInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.previewItemURL];
+}
+
 #pragma mark -
 #pragma mark Initializers
 - (id)initWithURL:(NSURL *)url {
@@ -185,7 +208,7 @@
     [self.view addSubview:self.deleteButton];
     [self.view addSubview:self.exitButton];
     [self.view addSubview:self.moveButton];
-    //[self.view addSubview:self.noteButton];
+    [self.view addSubview:self.noteButton];
     [self.view addSubview:self.viewButton];
     
     // Add gesture recognizers
@@ -195,8 +218,7 @@
 #pragma mark -
 #pragma mark Button Handlers
 - (void)buttonTouchUpInsideClipboard:(id)sender {
-    self.doc = [UIDocumentInteractionController interactionControllerWithURL:self.previewItemURL];
-    [self.doc presentOpenInMenuFromRect:CGRectMake(-15.0f, -10.0f, 50.0f, 50.0f)
+    [self.docInteractionController presentOpenInMenuFromRect:CGRectMake(-15.0f, -10.0f, 50.0f, 50.0f)
                             inView:self.clipboardShareButton
                           animated:YES];
     
@@ -253,6 +275,7 @@
         center.y += point.y - self.longPressPoint.y;
         self.view.center = center;
         self.longPressPoint = point;
+        return;
     }
 }
 
@@ -271,36 +294,30 @@
 
 - (void)exposeHiddenView {
     if (self.noteViewHidden == NO) { return; }
-    
-    UIViewController* blueBox = [[UIViewController alloc] init];
-    CGFloat boxWidth = self.view.frame.size.width - 10.5f;
-    CGFloat boxHeight = 300.0f;
-    CGFloat yCoord = (self.noteButton.frame.origin.y + self.noteButton.frame.size.height) - boxHeight - 10.0f;
-    CGFloat xCoord = (self.noteButton.frame.origin.x + (self.noteButton.frame.size.width/2)) - (boxWidth/2) - 2.25f;
-    
-    CGRect oldCoord = CGRectMake(xCoord, yCoord, boxWidth, boxHeight);
-    CGRect newCoord = CGRectMake(xCoord, yCoord + boxHeight - 50.0f, boxWidth, boxHeight);
+
+    CGFloat viewX = self.revealableView.view.frame.origin.x;
+    CGFloat viewY = self.revealableView.view.frame.origin.y;
+    CGFloat viewW = self.revealableView.view.frame.size.width;
+    CGFloat viewH = self.revealableView.view.frame.size.height;
+    CGRect newCoord = CGRectMake(viewX, viewY + viewH - 50.0f, viewW, viewH);
     
     CGRect buttonCoord = self.noteButton.frame;
-    buttonCoord.origin.y = buttonCoord.origin.y + boxHeight - 50.0f;
+    buttonCoord.origin.y = buttonCoord.origin.y + viewH - 50.0f;
     
     CGRect fullCoord = self.view.frame;
-    fullCoord.size.height = fullCoord.size.height + boxHeight - 50.0f;
+    fullCoord.size.height = fullCoord.size.height + viewH - 50.0f;
     
     // Frame now should be hidden behind the button
-    blueBox.view.backgroundColor = [UIColor blackColor];
-    blueBox.view.frame = oldCoord;
-    [self.view addSubview:blueBox.view];
-    [self.view sendSubviewToBack:blueBox.view];
+    [self.view addSubview:self.revealableView.view];
+    [self.view sendSubviewToBack:self.revealableView.view];
 
     [UIView beginAnimations:nil context:NULL];
-    blueBox.view.frame = newCoord;
+    self.revealableView.view.frame = newCoord;
     self.noteButton.frame = buttonCoord;
     self.view.frame = fullCoord;
     [UIView setAnimationDuration:0.5];
     [UIView commitAnimations];
     
-    self.revealableView = blueBox;
     self.noteViewHidden = NO;
 }
 - (void)hideExposedView {
