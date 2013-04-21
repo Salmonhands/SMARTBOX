@@ -25,7 +25,10 @@
     imageView.frame = self.window.frame;
     self.multiTableController.bgImageView = imageView;
     
-    [self.window setRootViewController:self.multiTableController];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.multiTableController];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    
+    [self.window setRootViewController:self.navigationController];
     [self.window makeKeyAndVisible];
     return YES;
 }

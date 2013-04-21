@@ -14,26 +14,20 @@
 
 @interface SHMultiTableViewController () <UIScrollViewDelegate>
 {
-    NSString* _username;
 }
 
 @property (nonatomic, strong) UIScrollView* scrollView;
-@property (nonatomic, strong) UIView* headerView;
 @property (nonatomic, strong) NSArray* tableViewStack;
 @property (nonatomic, strong) NSNumber* singleTableViewWidth;
 @property (nonatomic, strong) NSNumber* xOrigin;
 @property (nonatomic, strong) NSArray* floatingViews;
 @property (nonatomic, strong) UIImageView* headerBG;
-@property (nonatomic, strong) UILabel* headerLabel;
 @property (nonatomic, strong) SHFloatingViewController* folderSelectionRecipient;
 
-@property (nonatomic, readonly) NSString* username;
+@property (nonatomic, strong) NSString* username;
 
 - (void)setFoldersOnlyON;
 - (void)setFoldersOnlyOFF;
-
-- (void)exposeHeader;
-- (void)hideHeader;
 
 @end
 
@@ -89,13 +83,15 @@
     return _engine;
 }
 
--(NSString *)username {
-    if (_username) { return _username; }
-    
-    //need engine;
+- (void)setUsername:(NSString *)username {
+    DLog(@"username: %@", username);
+    if (!self.foldersOnly) {
+        self.title = [username stringByAppendingString:@"'s Smart BOX"];
+    }
+    _username = username;
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark Initialize
 
 - (id)initWithBaseController:(SFBrowser *)base {
@@ -106,30 +102,19 @@
         self.singleTableViewWidth = @300;
         self.xOrigin = 0;
         self.floatingViews = [NSArray array];
+        
+        [self.engine getCurrentUserOnCompletion:^(NSString *user) {
+            self.username = user;
+        } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+            DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason],
+                 [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
+        }];
     }
     
     return self;
 }
 
 - (void)viewDidLoad {
-    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, -51.0f, self.view.frame.size.width, 50.0f)];
-    self.headerView.backgroundColor = [UIColor blackColor];
-    
-    self.headerBG = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient.png"]];
-    self.headerBG.frame = CGRectMake(-self.view.frame.size.width/2, 0, self.view.frame.size.width*2, 50.0f);
-    [self.headerView addSubview:self.headerBG];
-    
-    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50.0f)];
-    self.headerLabel.text = @"Select Folder to Save";
-    self.headerLabel.textAlignment = NSTextAlignmentCenter;
-    self.headerLabel.font = [UIFont boldSystemFontOfSize:18.0f];
-    self.headerLabel.textColor = [UIColor whiteColor];
-    self.headerLabel.backgroundColor = [UIColor clearColor];
-    [self.headerView addSubview:self.headerLabel];
-    [self.headerView bringSubviewToFront:self.headerLabel];
-    
-    [self.view addSubview:self.headerView];
-    
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     SFBrowser* base = self.tableViewStack[0];
     base.depth = 0;
@@ -221,45 +206,11 @@
 - (void)selectFolderForFloatingView:(SHFloatingViewController*) fv {
     [UIView animateWithDuration:0.5f animations:^{
         self.foldersOnly = YES;
-        [self exposeHeader];
         [self hideAllFloatingViews];
+        self.title = @"Select a Destination Folder";
     } completion:^(BOOL finished) {
         self.folderSelectionRecipient = fv;
     }];
-}
-- (void)exposeHeader {
-     float x = self.view.frame.origin.x;
-     float y = self.view.frame.origin.y;
-     float w = self.view.frame.size.width;
-     float h = self.view.frame.size.height;
-     self.view.frame = CGRectMake(x, y + 50.0f, w, h);
-     
-     w = self.scrollView.contentSize.width;
-     h = self.scrollView.contentSize.height;
-     self.scrollView.contentSize = CGSizeMake(w, h - 50.0f);
-     
-     x = self.bgImageView.frame.origin.x;
-     y = self.bgImageView.frame.origin.y;
-     w = self.bgImageView.frame.size.width;
-     h = self.bgImageView.frame.size.height;
-     self.bgImageView.frame = CGRectMake(x, y - 50.0f, w, h);
-}
-- (void)hideHeader {
-    float x = self.view.frame.origin.x;
-    float y = self.view.frame.origin.y;
-    float w = self.view.frame.size.width;
-    float h = self.view.frame.size.height;
-    self.view.frame = CGRectMake(x, y - 50.0f, w, h);
-    
-    w = self.scrollView.contentSize.width;
-    h = self.scrollView.contentSize.height;
-    self.scrollView.contentSize = CGSizeMake(w, h + 50.0f);
-    
-    x = self.bgImageView.frame.origin.x;
-    y = self.bgImageView.frame.origin.y;
-    w = self.bgImageView.frame.size.width;
-    h = self.bgImageView.frame.size.height;
-    self.bgImageView.frame = CGRectMake(x, y + 50.0f, w, h);
 }
 
 - (void)hideAllFloatingViews {
@@ -278,8 +229,8 @@
 - (void)folderSelected:(NSString*)folder {
     [UIView animateWithDuration:0.5f animations:^{
         self.foldersOnly = NO;
-        [self hideHeader];
         [self showAllFloatingViews];
+        self.title = [self.username stringByAppendingString:@"'s Smart BOX"];
     } completion:^(BOOL finished) {
         NSString* uploadDoc = [self.folderSelectionRecipient.previewItemURL absoluteString];
         if ([[uploadDoc substringToIndex:16] compare:@"file://localhost"] == NSOrderedSame) {
@@ -289,9 +240,9 @@
         [self.engine upload: uploadDoc
                          to: folder
                onCompletion:^(NSString *task) {
-                   DLog(@"blahg");
         }
                     onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                        DLog(@"%@\t%@\t%@\t%@", [error localizedDescription], [error localizedFailureReason], [error localizedRecoveryOptions], [error localizedRecoverySuggestion]);
                         
         }];
     }];

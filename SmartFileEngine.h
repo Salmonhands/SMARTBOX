@@ -13,6 +13,7 @@ typedef void (^dlResponseBlock)(NSData* file);
 typedef void (^mdResponseBlock)(NSDictionary* meta);
 typedef void (^rmResponseBlock)(NSDictionary* task);
 typedef void (^taskResponseBlock)(NSString* task);
+typedef void (^userResponseBlock)(NSString* user);
 
 @interface SmartFileEngine : MKNetworkEngine
 
@@ -41,5 +42,8 @@ typedef void (^taskResponseBlock)(NSString* task);
                             to:(NSString*) directory
                   onCompletion:(taskResponseBlock) completionBlock
                        onError:(MKNKResponseErrorBlock) errorBlock;
+
+- (MKNetworkOperation*) getCurrentUserOnCompletion:(userResponseBlock) completionBlock
+                                           onError:(MKNKResponseErrorBlock) errorBlock;
 
 @end

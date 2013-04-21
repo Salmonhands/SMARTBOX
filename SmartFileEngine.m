@@ -182,4 +182,30 @@
     
 }
 
+- (MKNetworkOperation*) getCurrentUserOnCompletion:(userResponseBlock) completionBlock
+                                           onError:(MKNKResponseErrorBlock) errorBlock
+{
+    NSString* path = @"whoami/";
+    MKNetworkOperation* op = [self operationWithPath:path
+                                              params:nil
+                                          httpMethod:@"GET"
+                                                 ssl:YES];
+    
+    [op addCompletionHandler:^(MKNetworkOperation *completedOperation)
+     {
+         [completedOperation responseJSONWithCompletionHandler:^(id jsonObject) {
+             NSMutableDictionary* json = (NSMutableDictionary*) jsonObject;
+             json = [json objectForKey:@"user"];
+             completionBlock([json objectForKey:@"username"]);
+         }];
+         
+     }errorHandler:^(MKNetworkOperation *erroredOperation, NSError *error) {
+         errorBlock(erroredOperation, error);
+     }];
+    
+    [self enqueueOperation:op];
+    return op;
+    
+}
+
 @end
