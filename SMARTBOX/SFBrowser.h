@@ -10,6 +10,7 @@
 #import <QuickLook/QuickLook.h>
 #import "SmartFileEngine.h"
 #import "SHTableViewController.h"
+#import "SHAppDelegate.h"
 
 extern NSString* const kAPI_URL;
 extern NSString* const kAPI_KEY;

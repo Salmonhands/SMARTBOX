@@ -11,6 +11,7 @@
 #import "SHFloatingViewController.h"
 #import "SFBrowser.h"
 #import "SmartFileEngine.h"
+#import "SHAppDelegate.h"
 
 @interface SHMultiTableViewController () <UIScrollViewDelegate>
 {
@@ -71,16 +72,7 @@
 }
 
 - (SmartFileEngine *)engine {
-    if (_engine == nil) {
-        NSMutableDictionary* headerFields = [NSMutableDictionary dictionary];
-        [headerFields setValue:@"Basic ODM4a05MY0JJME5OSk5mc0hIc25KdTZ2MFZkRFlvOk9iaHpJYWRPRUh5ZjVlZHVYMTRBQWFTTnN4MWxTcg=="
-                        forKey:@"Authorization"];
-        
-        _engine = [[SmartFileEngine alloc] initWithHostName:@"app.smartfile.com"
-                                                   apiPath:@"api/2"
-                                        customHeaderFields:headerFields];
-    }
-    return _engine;
+    return ApplicationDelegate.SFEngine;
 }
 
 - (void)setUsername:(NSString *)username {

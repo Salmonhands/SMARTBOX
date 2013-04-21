@@ -17,6 +17,8 @@ typedef void (^userResponseBlock)(NSString* user);
 
 @interface SmartFileEngine : MKNetworkEngine
 
+- (id)initWithDefaultSettings;
+
 - (MKNetworkOperation*) listFilesFor:(NSString*) directory
                         onCompletion:(lsResponseBlock) completionBlock
                              onError:(MKNKResponseErrorBlock) errorBlock;

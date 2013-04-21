@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SmartFileEngine.h"
+
+#define ApplicationDelegate ((SHAppDelegate *)[[UIApplication sharedApplication] delegate])
 
 @class SHMultiTableViewController;
 
@@ -15,5 +18,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UINavigationController *navigationController;
 @property (strong, nonatomic) SHMultiTableViewController* multiTableController;
+
+@property (nonatomic, strong, readonly) SmartFileEngine* SFEngine;
 
 @end

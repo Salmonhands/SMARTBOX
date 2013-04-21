@@ -11,12 +11,17 @@
 #import "SHMultiTableViewController.h"
 #import "SHFloatingViewController.h"
 
-@implementation SHAppDelegate
+@interface SHAppDelegate ()
+{
+    SmartFileEngine* _SFEngine;
+}
 
+@end
+
+@implementation SHAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     SFBrowser* rootView = [[SFBrowser alloc] initWithDirectory:@"/"];
@@ -67,6 +72,13 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (SmartFileEngine *)SFEngine {
+    if (_SFEngine) { return _SFEngine; }
+    
+   _SFEngine = [[SmartFileEngine alloc] initWithDefaultSettings];
+    return _SFEngine;
 }
 
 @end

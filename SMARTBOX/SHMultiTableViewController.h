@@ -32,6 +32,6 @@
 
 @property (nonatomic) BOOL foldersOnly;
 @property (nonatomic, strong) UIImageView* bgImageView;
-@property (nonatomic, strong) SmartFileEngine* engine;
+@property (nonatomic, strong, readonly) SmartFileEngine* engine;
 
 @end

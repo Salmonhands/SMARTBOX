@@ -11,6 +11,15 @@
 
 @implementation SmartFileEngine
 
+
+- (id)initWithDefaultSettings {
+    NSMutableDictionary* headerFields = [NSMutableDictionary dictionary];
+    [headerFields setValue:@"Basic ODM4a05MY0JJME5OSk5mc0hIc25KdTZ2MFZkRFlvOk9iaHpJYWRPRUh5ZjVlZHVYMTRBQWFTTnN4MWxTcg=="
+                    forKey:@"Authorization"];
+    self = [self initWithHostName:@"app.smartfile.com" apiPath:@"api/2" customHeaderFields:headerFields];
+    return self;
+}
+
 -(MKNetworkOperation *)listFilesFor:(NSString *)directory
                        onCompletion:(lsResponseBlock)completionBlock
                             onError:(MKNKResponseErrorBlock)errorBlock

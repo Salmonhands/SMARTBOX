@@ -13,11 +13,11 @@
 @interface SFBrowser () <UIAlertViewDelegate> {
     
     UITextView* _textView;
-    SmartFileEngine* engine;
 }
 
 @property (nonatomic, strong) NSString* displayText;
 @property (nonatomic, strong) NSIndexPath* selected;
+@property (nonatomic, readonly) SmartFileEngine* engine;
 
 @end
 
@@ -33,6 +33,10 @@
         _showFoldersOnly = showFoldersOnly;
         [self.tableView reloadData];
     }
+}
+
+- (SmartFileEngine *)engine {
+    return ApplicationDelegate.SFEngine;
 }
 
 #pragma mark - 
@@ -55,15 +59,7 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.dataSource = self;
     
-    NSMutableDictionary* headerFields = [NSMutableDictionary dictionary];
-    [headerFields setValue:@"Basic ODM4a05MY0JJME5OSk5mc0hIc25KdTZ2MFZkRFlvOk9iaHpJYWRPRUh5ZjVlZHVYMTRBQWFTTnN4MWxTcg=="
-                    forKey:@"Authorization"];
-    
-    engine = [[SmartFileEngine alloc] initWithHostName:@"app.smartfile.com"
-                                               apiPath:@"api/2"
-                                    customHeaderFields:headerFields];
-    
-    [engine listFilesFor:self.directory
+    [self.engine listFilesFor:self.directory
             onCompletion:^(NSArray* list) {
                 _list = list;
                 [self.tableView reloadData];
@@ -88,7 +84,7 @@
 
 - (void)makeDirectoryWithName:(NSString*) name {
     NSString* fullName = [self.directory stringByAppendingString:name];
-    [engine mkdir:fullName onCompletion:^(NSDictionary* meta) {
+    [self.engine mkdir:fullName onCompletion:^(NSDictionary* meta) {
         DLog(@"Created directory with data: %@", meta);
         NSDictionary* newDir = [NSDictionary dictionaryWithObjects:@[[meta valueForKey:@"mime"], [meta valueForKey:@"name"]]
                                                            forKeys:@[@"mime", @"name"]];
@@ -140,7 +136,7 @@
 #pragma mark -
 #pragma mark Other UITableView Methods
 - (void)refreshList {
-    [engine listFilesFor:self.directory
+    [self.engine listFilesFor:self.directory
             onCompletion:^(NSArray* list) {
                 _list = list;
                 [self.tableView reloadData];
@@ -361,7 +357,7 @@ const int addSection = 2;
         }
         else {
             NSString* file = [NSString stringWithFormat:@"%@%@", self.directory, element[@"name"]];
-            [engine downloadFile:file
+            [self.engine downloadFile:file
                 onProgressChange:nil
                     onCompletion:^(NSData* downFile) {
                         // Save the file to the local cache
@@ -374,7 +370,7 @@ const int addSection = 2;
                         
                         SHFloatingViewController* floatingView = [[SHFloatingViewController alloc] initWithURL:[NSURL fileURLWithPath:path isDirectory:NO]];
                         floatingView.HTTPpath = file;
-                        floatingView.engine = engine;
+                        floatingView.engine = self.engine;
                         [self.multiTableController addFloatingView:floatingView withSender:self];
                     }
                          onError:^(MKNetworkOperation* op, NSError* error) {
@@ -394,7 +390,7 @@ const int addSection = 2;
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSString* rmDir = [self.directory stringByAppendingString:[_list[indexPath.row] objectForKey:@"name"]];
-        [engine rmdir:rmDir
+        [self.engine rmdir:rmDir
          onCompletion:^(NSDictionary* task) {
              NSMutableArray* a = [_list mutableCopy];
              [a removeObjectAtIndex:indexPath.row];
