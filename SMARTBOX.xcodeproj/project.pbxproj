@@ -22,6 +22,9 @@
 		461B2D1B17192913003EDA9A /* XLS.png in Resources */ = {isa = PBXBuildFile; fileRef = 461B2D1317192913003EDA9A /* XLS.png */; };
 		461B2D1C17192913003EDA9A /* ZIP.png in Resources */ = {isa = PBXBuildFile; fileRef = 461B2D1417192913003EDA9A /* ZIP.png */; };
 		4630F3421720EE2F005E46CE /* UNK.png in Resources */ = {isa = PBXBuildFile; fileRef = 4630F3411720EE2F005E46CE /* UNK.png */; };
+		4634A52217245C040059CB48 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4634A52117245C040059CB48 /* QuartzCore.framework */; };
+		4634A52517246AA80059CB48 /* UIButton+Glossy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4634A52417246AA80059CB48 /* UIButton+Glossy.m */; };
+		4634A52817246BD00059CB48 /* SHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4634A52717246BD00059CB48 /* SHButton.m */; };
 		463B30B816F20B28009FFA3E /* SmartFileEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 463B30B716F20B28009FFA3E /* SmartFileEngine.m */; };
 		463B30BA16F2573D009FFA3E /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463B30B916F2573C009FFA3E /* QuickLook.framework */; };
 		4682A6E11720E9A800512B8C /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 4682A6E01720E9A800512B8C /* gradient.png */; };
@@ -88,6 +91,11 @@
 		461B2D1317192913003EDA9A /* XLS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = XLS.png; sourceTree = "<group>"; };
 		461B2D1417192913003EDA9A /* ZIP.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ZIP.png; sourceTree = "<group>"; };
 		4630F3411720EE2F005E46CE /* UNK.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UNK.png; sourceTree = "<group>"; };
+		4634A52117245C040059CB48 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4634A52317246AA80059CB48 /* UIButton+Glossy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Glossy.h"; sourceTree = "<group>"; };
+		4634A52417246AA80059CB48 /* UIButton+Glossy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Glossy.m"; sourceTree = "<group>"; };
+		4634A52617246BD00059CB48 /* SHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHButton.h; sourceTree = "<group>"; };
+		4634A52717246BD00059CB48 /* SHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHButton.m; sourceTree = "<group>"; };
 		463B30B616F20B28009FFA3E /* SmartFileEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartFileEngine.h; sourceTree = "<group>"; };
 		463B30B716F20B28009FFA3E /* SmartFileEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartFileEngine.m; sourceTree = "<group>"; };
 		463B30B916F2573C009FFA3E /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
@@ -164,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4634A52217245C040059CB48 /* QuartzCore.framework in Frameworks */,
 				463B30BA16F2573D009FFA3E /* QuickLook.framework in Frameworks */,
 				46F3F0E116EF94D800E8889F /* SystemConfiguration.framework in Frameworks */,
 				46F3F0DF16EF94D200E8889F /* Security.framework in Frameworks */,
@@ -334,6 +343,7 @@
 		46FAAECF16E5215D0020CAAD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4634A52117245C040059CB48 /* QuartzCore.framework */,
 				463B30B916F2573C009FFA3E /* QuickLook.framework */,
 				46F3F0E016EF94D800E8889F /* SystemConfiguration.framework */,
 				46F3F0DE16EF94D100E8889F /* Security.framework */,
@@ -360,6 +370,8 @@
 				46ED0CDB171987F20043545E /* SHFloatingViewController.m */,
 				46B0064F17238ADE009C5516 /* SHLoginViewController.h */,
 				46B0065017238ADE009C5516 /* SHLoginViewController.m */,
+				4634A52617246BD00059CB48 /* SHButton.h */,
+				4634A52717246BD00059CB48 /* SHButton.m */,
 			);
 			name = SMARTFILE;
 			path = SMARTBOX;
@@ -386,6 +398,8 @@
 				46FAAF2116E545310020CAAD /* NSData+Additions.m */,
 				46F3F0BB16EAF9FF00E8889F /* NSString+Encode.h */,
 				46F3F0BC16EAF9FF00E8889F /* NSString+Encode.m */,
+				4634A52317246AA80059CB48 /* UIButton+Glossy.h */,
+				4634A52417246AA80059CB48 /* UIButton+Glossy.m */,
 			);
 			name = categories;
 			sourceTree = "<group>";
@@ -516,6 +530,8 @@
 				461B2D0C17191149003EDA9A /* SHTableViewController.m in Sources */,
 				46ED0CDC171989030043545E /* SHFloatingViewController.m in Sources */,
 				46B0065117238ADE009C5516 /* SHLoginViewController.m in Sources */,
+				4634A52517246AA80059CB48 /* UIButton+Glossy.m in Sources */,
+				4634A52817246BD00059CB48 /* SHButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

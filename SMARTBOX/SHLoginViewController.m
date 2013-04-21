@@ -7,6 +7,8 @@
 //
 
 #import "SHLoginViewController.h"
+#import "SHButton.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface SHLoginViewController () <UITextFieldDelegate>
 
@@ -14,7 +16,7 @@
 @property (nonatomic, strong) UIImageView* bgImage;
 @property (nonatomic, strong) UITextField* usernameField;
 @property (nonatomic, strong) UITextField* passwordField;
-@property (nonatomic, strong) UIButton* submitButton;
+@property (nonatomic, strong) SHButton* submitButton;
 
 @property (nonatomic, strong) UIView* backgroundColorView;
 
@@ -68,11 +70,20 @@
     CGFloat h = 40.0f;
     _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(x, y, w, h)];
     
-    _usernameField.backgroundColor = [UIColor whiteColor];
+
     _usernameField.text = @"Username";
     _usernameField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _usernameField.delegate = self;
+    _usernameField.layer.backgroundColor = [[UIColor whiteColor] CGColor];
+    _usernameField.layer.borderColor = [[UIColor grayColor] CGColor];
+    _usernameField.layer.borderWidth = 1;
+    _usernameField.layer.cornerRadius = 5;
+    _usernameField.clipsToBounds = YES;
+    _usernameField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, h)];
+    _usernameField.leftView = paddingView;
+    _usernameField.leftViewMode = UITextFieldViewModeAlways;
     
     return _usernameField;
 }
@@ -87,28 +98,70 @@
     _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(x, y, w, h)];
     
     _passwordField.secureTextEntry = YES;
-    _passwordField.backgroundColor = [UIColor whiteColor];
     _passwordField.text = @"Password";
     _passwordField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _passwordField.delegate = self;
+    _passwordField.layer.backgroundColor = [[UIColor whiteColor] CGColor];
+    _passwordField.layer.borderColor = [[UIColor grayColor] CGColor];
+    _passwordField.layer.borderWidth = 1;
+    _passwordField.layer.cornerRadius = 5;
+    _passwordField.clipsToBounds = YES;
+    _passwordField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    
+    UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, h)];
+    _passwordField.leftView = paddingView;
+    _passwordField.leftViewMode = UITextFieldViewModeAlways;
     
     return _passwordField;
 }
 
-- (UIButton *)submitButton {
+- (SHButton *)submitButton {
     if (_submitButton) { return _submitButton; }
     
     CGFloat x = 40.0f;
     CGFloat y = 140.0f;
     CGFloat w = self.width - x*2;
     CGFloat h = 40.0f;
-    _submitButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    _submitButton = [[SHButton alloc] init];
     _submitButton.frame = CGRectMake(x, y, w, h);
     
     [_submitButton setTitle:@"Login" forState:UIControlStateNormal];
     [_submitButton setTitle:@"Login" forState:UIControlStateSelected];
     [_submitButton setTitle:@"Login" forState:UIControlStateHighlighted];
+    [_submitButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [_submitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     _submitButton.titleLabel.font = [UIFont boldSystemFontOfSize:19.0f];
+    
+    [_submitButton addTarget:self action:@selector(submitButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_submitButton setBackgroundColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_submitButton setBackgroundColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [_submitButton setBackgroundColor:[UIColor grayColor] forState:UIControlStateSelected];
+    
+    // Round the corners
+    [_submitButton.layer setMasksToBounds:YES];
+    [_submitButton.layer setCornerRadius:5.0f];
+    
+    // Apply a border
+    [_submitButton.layer setBorderWidth:1.0f];
+    [_submitButton.layer setBorderColor:[[UIColor blackColor] CGColor]];
+    
+    // Give it a shadow
+    // From UIButton+Glossy: https://github.com/GeorgeMcMullen/UIButton-Glossy
+    if ([_submitButton.layer respondsToSelector:@selector(shadowOpacity)])
+    {
+        _submitButton.layer.shadowOpacity = 0.7;
+        _submitButton.layer.shadowColor = [[UIColor blackColor] CGColor];
+        _submitButton.layer.shadowOffset = CGSizeMake(0.0, 3.0);
+        
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2)
+        {
+            _submitButton.layer.rasterizationScale=2.0;
+        }
+        _submitButton.layer.shouldRasterize = YES;
+    }
+    
     
     return _submitButton;
 }
@@ -144,7 +197,7 @@
 }
 
 - (void) submitButtonPressed:(id)sender {
-    
+    DLog(@"HERE");
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
