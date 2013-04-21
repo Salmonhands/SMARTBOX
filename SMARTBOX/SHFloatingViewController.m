@@ -13,10 +13,10 @@
 
 @interface SHFloatingViewController ()  <UIGestureRecognizerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
 {
-    CGPoint _priorPoint;
 }
 
 @property (nonatomic, strong) UILongPressGestureRecognizer* longPressRecognizer;
+@property (nonatomic) CGPoint longPressPoint;
 
 @property (nonatomic) BOOL noteViewHidden;
 
@@ -129,6 +129,10 @@
     _innerViewController.delegate = self;
     _innerViewController.currentPreviewItemIndex = 0;
     _innerViewController.view.frame = self.innerFrame;
+    
+    UIBarButtonItem* b = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonSelected:)];
+    _innerViewController.navigationItem.leftBarButtonItem = b;
+    
     return _innerViewController;
 }
 
@@ -149,13 +153,16 @@
     return _longPressRecognizer;
 }
 
+- (NSString *)fileName {
+    return [[[[self.previewItemURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
+}
+
 #pragma mark -
 #pragma mark Initializers
 - (id)initWithURL:(NSURL *)url {
     self = [super init];
     if (self) {
         self.previewItemURL = url;
-        self.fileName = [[[[url absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
         self.noteViewHidden = YES;
     }
     return self;
@@ -195,7 +202,6 @@
     
 }
 - (void)buttonTouchUpInsideDelete:(id)sender {
-    DLog(@"%@", self.HTTPpath);
     if (self.HTTPpath) {
         [self.engine rm:self.HTTPpath
            onCompletion:^(NSDictionary *task) {
@@ -216,21 +222,16 @@
     [self.multiTableController selectFolderForFloatingView:self];
 }
 - (void)buttonTouchUpInsideNote:(id)sender {
-    //[self swapNoteView];
+    [self swapNoteView];
 }
 
 - (void)backButtonSelected:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^(void){
-    }];
-    
+    [self dismissViewControllerAnimated:YES completion:^(void){}];
     self.innerViewController.view.frame = self.innerFrame;
     [self.view addSubview:self.innerViewController.view];
 }
 - (void)buttonTouchUpInsideView:(id)sender {
-    UIBarButtonItem* b = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonSelected:)];
-    self.innerViewController.navigationItem.leftBarButtonItem = b;
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:self.innerViewController];
-    
     [self presentViewController:nav animated:YES completion:^(void){}];
 }
 
@@ -239,17 +240,20 @@
 #pragma mark Gesture Recognition
 - (void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
     [self.multiTableController bringToFrontFloatingView:self];
-    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan || [gestureRecognizer state] == UIGestureRecognizerStateChanged) {
-        CGPoint point = [gestureRecognizer locationInView:self.view.superview];
-        if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
-            CGPoint center = self.view.center;
-            center.x += point.x - _priorPoint.x;
-            center.y += point.y - _priorPoint.y;
-            self.view.center = center;
-        }
-        _priorPoint = point;
+    
+    if ([gestureRecognizer state] == UIGestureRecognizerStateBegan) {
+        self.longPressPoint = [gestureRecognizer locationInView:self.view.superview];
+        return;
     }
     
+    if ([gestureRecognizer state] == UIGestureRecognizerStateChanged) {
+        CGPoint point = [gestureRecognizer locationInView:self.view.superview];
+        CGPoint center = self.view.center;
+        center.x += point.x - self.longPressPoint.x;
+        center.y += point.y - self.longPressPoint.y;
+        self.view.center = center;
+        self.longPressPoint = point;
+    }
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {

@@ -22,7 +22,7 @@
 @property (nonatomic, weak) SHTableViewController* parent;
 @property (nonatomic, strong) UIViewController* revealableView;
 @property (nonatomic, strong) NSURL* previewItemURL;
-@property (nonatomic, strong) NSString* fileName;
+@property (nonatomic, readonly) NSString* fileName;
 
 - (id)initWithURL:(NSURL *)url;
 
