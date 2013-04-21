@@ -10,31 +10,50 @@
 #import "SFBrowser.h"
 #import "SHMultiTableViewController.h"
 #import "SHFloatingViewController.h"
+#import "SHLoginViewController.h"
 
 @interface SHAppDelegate ()
 {
     SmartFileEngine* _SFEngine;
 }
 
+@property (nonatomic, readonly) BOOL requiresLogin;
+@property (nonatomic, strong) SHLoginViewController* loginVC;
+
 @end
 
 @implementation SHAppDelegate
+
+// For testing
+- (BOOL)requiresLogin {
+    return YES;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    SFBrowser* rootView = [[SFBrowser alloc] initWithDirectory:@"/"];
-    self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:rootView];
+    //SFBrowser* rootView = [[SFBrowser alloc] initWithDirectory:@"/"];
+    //self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:rootView];
+    //self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:nil];
     UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
     imageView.frame = self.window.frame;
-    self.multiTableController.bgImageView = imageView;
+    //self.multiTableController.bgImageView = imageView;
     
-    self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.multiTableController];
+    //self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.multiTableController];
+    self.navigationController = [[UINavigationController alloc] init];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [self.navigationController.view addSubview:imageView];
+    [self.navigationController.view sendSubviewToBack:imageView];
+    
+    if (self.requiresLogin) {
+        self.loginVC = [[SHLoginViewController alloc] init];
+        [self.navigationController.view addSubview:self.loginVC.view];
+    }
     
     [self.window setRootViewController:self.navigationController];
     [self.window makeKeyAndVisible];
+    [self.loginVC animateLoginView];
     return YES;
 }
 

@@ -27,6 +27,7 @@
 		4682A6E11720E9A800512B8C /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 4682A6E01720E9A800512B8C /* gradient.png */; };
 		46A120D2172375F500E04DA6 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A120D1172375F500E04DA6 /* Default-Portrait@2x~ipad.png */; };
 		46A120D41723760700E04DA6 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A120D31723760700E04DA6 /* Default-Portrait~ipad.png */; };
+		46B0065117238ADE009C5516 /* SHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46B0065017238ADE009C5516 /* SHLoginViewController.m */; };
 		46DA7DC6171934370072B3D0 /* addFolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 46DA7DC4171934370072B3D0 /* addFolder.png */; };
 		46DA7DC7171934370072B3D0 /* Folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 46DA7DC5171934370072B3D0 /* Folder.png */; };
 		46DA7DC917194D700072B3D0 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 46DA7DC817194D700072B3D0 /* background.png */; };
@@ -96,6 +97,8 @@
 		46A120CF172375C800E04DA6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		46A120D1172375F500E04DA6 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
 		46A120D31723760700E04DA6 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		46B0064F17238ADE009C5516 /* SHLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHLoginViewController.h; sourceTree = "<group>"; };
+		46B0065017238ADE009C5516 /* SHLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHLoginViewController.m; sourceTree = "<group>"; };
 		46DA7DC4171934370072B3D0 /* addFolder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addFolder.png; sourceTree = "<group>"; };
 		46DA7DC5171934370072B3D0 /* Folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Folder.png; sourceTree = "<group>"; };
 		46DA7DC817194D700072B3D0 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
@@ -355,6 +358,8 @@
 				461B2D0B17191149003EDA9A /* SHTableViewController.m */,
 				46ED0CDA171987F20043545E /* SHFloatingViewController.h */,
 				46ED0CDB171987F20043545E /* SHFloatingViewController.m */,
+				46B0064F17238ADE009C5516 /* SHLoginViewController.h */,
+				46B0065017238ADE009C5516 /* SHLoginViewController.m */,
 			);
 			name = SMARTFILE;
 			path = SMARTBOX;
@@ -510,6 +515,7 @@
 				461B2CFD1718EF21003EDA9A /* SHMultiTableViewController.m in Sources */,
 				461B2D0C17191149003EDA9A /* SHTableViewController.m in Sources */,
 				46ED0CDC171989030043545E /* SHFloatingViewController.m in Sources */,
+				46B0065117238ADE009C5516 /* SHLoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
