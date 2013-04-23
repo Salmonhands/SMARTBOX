@@ -12,6 +12,7 @@
 #import "SFBrowser.h"
 #import "SmartFileEngine.h"
 #import "SHAppDelegate.h"
+#import "UIImage+Rotate.h"
 
 @interface SHMultiTableViewController () <UIScrollViewDelegate>
 {
@@ -33,6 +34,8 @@
 @end
 
 @implementation SHMultiTableViewController
+
+@synthesize bgImageView = _bgImageView;
 
 #pragma mark -
 #pragma mark Accessors and Mutators
@@ -57,7 +60,22 @@
     for (SFBrowser* table in self.tableViewStack) {
         [table setShowFoldersOnly:NO];
     }
+}
 
+- (UIImageView *)bgImageView {
+    if (_bgImageView) { return _bgImageView; }
+    
+    if (self.interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+        _bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageByRotatingImage:[UIImage imageNamed:@"background.png"] degrees:270.0f]];
+        _bgImageView.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.height, self.view.frame.size.width);
+    } else if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        _bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageByRotatingImage:[UIImage imageNamed:@"background.png"] degrees:90.0f]];
+        _bgImageView.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.height, self.view.frame.size.width);
+    } else {
+        _bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
+        _bgImageView.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height);
+    }
+    return _bgImageView;
 }
 - (void)setBgImageView:(UIImageView *)bgImageView {
     if (_bgImageView == bgImageView) {
@@ -76,7 +94,6 @@
 }
 
 - (void)setUsername:(NSString *)username {
-    DLog(@"username: %@", username);
     if (!self.foldersOnly) {
         self.title = [username stringByAppendingString:@"'s Smart BOX"];
     }
@@ -107,6 +124,9 @@
 }
 
 - (void)viewDidLoad {
+    [self.view addSubview:self.bgImageView];
+    [self.view sendSubviewToBack:self.bgImageView];
+
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     SFBrowser* base = self.tableViewStack[0];
     base.depth = 0;
@@ -240,6 +260,19 @@
     }];
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+        self.bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageByRotatingImage:[UIImage imageNamed:@"background.png"] degrees:270.0f]];
+    } else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        self.bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageByRotatingImage:[UIImage imageNamed:@"background.png"] degrees:90.0f]];
+    } else {
+        self.bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
+    }
+    self.bgImageView.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height);
+    self.scrollView.autoresizesSubviews = NO;
+    self.scrollView.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.contentSize.width, self.view.frame.size.height);
+}
 
 @end
 

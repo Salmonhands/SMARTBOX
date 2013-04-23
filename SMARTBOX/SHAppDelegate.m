@@ -11,14 +11,29 @@
 #import "SHMultiTableViewController.h"
 #import "SHFloatingViewController.h"
 #import "SHLoginViewController.h"
+#import "GTMOAuthViewControllerTouch.h"
+#import "GTMOAuthAuthentication.h"
+#import "UIImage+Rotate.h"
+
+static NSString *const kKeychainItemName = @"OAuth2 - SmartFile";
 
 @interface SHAppDelegate ()
 {
     SmartFileEngine* _SFEngine;
+    
+    GTMOAuthViewControllerTouch* viewController;
+    GTMOAuthAuthentication* _auth;
 }
 
 @property (nonatomic, readonly) BOOL requiresLogin;
 @property (nonatomic, strong) SHLoginViewController* loginVC;
+@property (nonatomic) GTMOAuthAuthentication* auth;
+@property (nonatomic, readonly) NSString* clientID;
+@property (nonatomic, readonly) NSString* clientSecret;
+@property (nonatomic, readonly) NSURL* requestURL;
+@property (nonatomic, readonly) NSURL* accessURL;
+@property (nonatomic, readonly) NSURL* authorizeURL;
+@property (nonatomic, readonly) NSString* scope;
 
 @end
 
@@ -34,24 +49,23 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     SFBrowser* rootView = [[SFBrowser alloc] initWithDirectory:@"/"];
-    self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:rootView];
-    UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background.png"]];
-    imageView.frame = self.window.frame;
-    self.multiTableController.bgImageView = imageView;
+    self.multiTableController = [[SHMultiTableViewController alloc] initWithBaseController:rootView];\
     
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:self.multiTableController];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    [self.navigationController.view addSubview:imageView];
-    [self.navigationController.view sendSubviewToBack:imageView];
     
     if (self.requiresLogin) {
-        self.loginVC = [[SHLoginViewController alloc] init];
-        [self.navigationController.view addSubview:self.loginVC.view];
+        //self.loginVC = [[SHLoginViewController alloc] init];
+        //[self.navigationController.view addSubview:self.loginVC.view];
+        if (![self.auth canAuthorize]) {
+            [self signInToCustomService];
+        }
+        
     }
     
     [self.window setRootViewController:self.navigationController];
     [self.window makeKeyAndVisible];
-    [self.loginVC animateLoginView];
+    //[self.loginVC animateLoginView];
     return YES;
 }
 
@@ -64,31 +78,52 @@
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+- (NSString *)clientID {
+    return kCLIENTTOKEN;
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+- (NSString *)clientSecret {
+    return kCLIENTSECRET;
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+- (GTMOAuthAuthentication *)auth {
+    if (!_auth ) {        
+        _auth = [[GTMOAuthAuthentication alloc] initWithSignatureMethod:kGTMOAuthSignatureMethodHMAC_SHA1
+                                                            consumerKey:self.clientID
+                                                             privateKey:self.clientSecret];
+        
+        // setting the service name lets us inspect the auth object later to know
+        // what service it is for
+        _auth.serviceProvider = @"Custom Auth Service - SMARTBOX";
+    }
+    
+    if (![_auth canAuthorize]) {
+        // Attempt to login from keychain
+        DLog(@"i tried to authorize!");
+        if ([GTMOAuthViewControllerTouch authorizeFromKeychainForName:@"SMARTBOX.SMARTFILE"
+                                                       authentication:_auth]) {
+            DLog(@"and i succeeded");
+        } else { DLog(@" and i failed"); }
+    }
+    
+    return _auth;
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+- (NSURL *)requestURL {
+    return [NSURL URLWithString:@"https://app.smartfile.com/oauth/request_token"];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+- (NSURL *)accessURL {
+    return [NSURL URLWithString:@"https://app.smartfile.com/oauth/access_token"];
+}
+
+- (NSURL *)authorizeURL {
+    return [NSURL URLWithString:@"https://app.smartfile.com/oauth/authorize"];
+}
+
+- (NSString *)scope {
+    //return nil;
+    return @"https://app.smartfile.com";
 }
 
 - (SmartFileEngine *)SFEngine {
@@ -96,6 +131,40 @@
     
    _SFEngine = [[SmartFileEngine alloc] initWithDefaultSettings];
     return _SFEngine;
+}
+
+- (void)signInToCustomService {
+    
+    GTMOAuthAuthentication *auth = self.auth;
+    
+    // set the callback URL to which the site should redirect, and for which
+    // the OAuth controller should look to determine when sign-in has
+    // finished or been canceled
+    //
+    // This URL does not need to be for an actual web page
+    [auth setCallback:@"http://www.google.com"];
+    
+    // Display the autentication view
+    GTMOAuthViewControllerTouch *_viewController;
+    _viewController = [[GTMOAuthViewControllerTouch alloc] initWithScope:self.scope
+                                                                  language:nil
+                                                           requestTokenURL:self.requestURL
+                                                         authorizeTokenURL:self.authorizeURL
+                                                            accessTokenURL:self.accessURL
+                                                            authentication:self.auth
+                                                            appServiceName:@"SMARTBOX.SMARTFILE"
+                                                       completionHandler:^(GTMOAuthViewControllerTouch *viewController, GTMOAuthAuthentication *auth, NSError *error) {
+                                                           if (!error) {
+                                                               self.auth = auth;
+                                                               DLog(@"FADSFA");
+                                                               [self.navigationController popViewControllerAnimated:YES];
+                                                           } else {
+                                                               DLog(@"ERROR: %@", [error localizedDescription]);
+                                                           }
+                                                       }];
+    
+    [self.navigationController pushViewController:_viewController
+                                           animated:YES];
 }
 
 @end

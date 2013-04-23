@@ -9,15 +9,12 @@
 #import "SmartFileEngine.h"
 #import "NSString+Encode.h"
 
-#define kCLIENTTOKEN @"cmS726SZ4HBPkhEAjtuXmAfbY9cs6X"
-#define kCLIENTSECRET @"t3vrC46YPRLtqVgpAL65tUlwfVLN5v"
-
 @implementation SmartFileEngine
 
 
 - (id)initWithDefaultSettings {
     NSMutableDictionary* headerFields = [NSMutableDictionary dictionary];
-    [headerFields setValue:@"Basic ODM4a05MY0JJME5OSk5mc0hIc25KdTZ2MFZkRFlvOk9iaHpJYWRPRUh5ZjVlZHVYMTRBQWFTTnN4MWxTcg=="
+    [headerFields setValue:kAUTHHEADER
                     forKey:@"Authorization"];
     self = [self initWithHostName:@"app.smartfile.com" apiPath:@"api/2" customHeaderFields:headerFields];
     return self;

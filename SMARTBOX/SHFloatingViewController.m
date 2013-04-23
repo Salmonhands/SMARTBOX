@@ -10,6 +10,7 @@
 #import "SHMultiTableViewController.h"
 #import "SHTableViewController.h"
 #import "SmartFileEngine.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface SHFloatingViewController ()  <UIGestureRecognizerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
 {
@@ -33,6 +34,7 @@
 @property (nonatomic, readonly) CGRect innerFrame;
 
 @property (nonatomic, strong) UIViewController* revealableView;
+@property (nonatomic, strong) UITextField* revealableTextField;
 @property (nonatomic, strong) UILabel* headerLabel;
 
 @end
@@ -113,7 +115,7 @@
         [_viewButton setImage:[UIImage imageNamed:@"view.png"] forState:UIControlStateNormal];
         [_viewButton setImage:[UIImage imageNamed:@"viewT.png"] forState:UIControlStateSelected];
         [_viewButton setImage:[UIImage imageNamed:@"viewT.png"] forState:UIControlStateHighlighted];
-        _viewButton.frame = CGRectMake(35.0f, 372.5f, 35.0f, 30.0f);
+        _viewButton.frame = CGRectMake(35.0f, 372.5f, 35.0f, 25.0f);
         [_viewButton addTarget:self action:@selector(buttonTouchUpInsideView:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _viewButton;
@@ -162,18 +164,32 @@
     return [[[[self.previewItemURL absoluteString] componentsSeparatedByString:@"/"] lastObject] stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
 }
 
+- (UITextField*)revealableTextField {
+    if (_revealableTextField) { return _revealableTextField; }
+    
+    _revealableTextField = [[UITextField alloc] init];
+    _revealableTextField.borderStyle = UITextBorderStyleRoundedRect;
+    
+    return _revealableTextField;
+}
+
 - (UIViewController *)revealableView {
     if (_revealableView) { return _revealableView; }
     
     _revealableView = [[UIViewController alloc] init];
     
-    CGFloat boxWidth = self.view.frame.size.width - 10.5f;;
+    CGFloat boxWidth = self.view.frame.size.width - 12.0f;
     CGFloat yCoord = (self.noteButton.frame.origin.y + self.noteButton.frame.size.height) - 300.0f - 10.0f;
     CGFloat xCoord = (self.noteButton.frame.origin.x + (self.noteButton.frame.size.width/2)) - (boxWidth/2) - 2.25f;
     CGRect oldCoord = CGRectMake(xCoord, yCoord, boxWidth, 300.0f);
     
     _revealableView.view.frame = oldCoord;
     _revealableView.view.backgroundColor = [UIColor blackColor];
+    [_revealableView.view.layer setMasksToBounds:YES];
+    [_revealableView.view.layer setCornerRadius:5.0f];
+    
+    self.revealableTextField.frame = CGRectMake(10.0f, 60.0f, boxWidth - 20.0f, 300.0f - 100.0f);
+    [_revealableView.view addSubview:self.revealableTextField];
     return _revealableView;
 }
 

@@ -25,9 +25,18 @@
 		4634A52217245C040059CB48 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4634A52117245C040059CB48 /* QuartzCore.framework */; };
 		4634A52517246AA80059CB48 /* UIButton+Glossy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4634A52417246AA80059CB48 /* UIButton+Glossy.m */; };
 		4634A52817246BD00059CB48 /* SHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4634A52717246BD00059CB48 /* SHButton.m */; };
+		4634A5411724A6770059CB48 /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4634A5391724A6770059CB48 /* GTMHTTPFetcher.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4634A5421724A6770059CB48 /* GTMOAuthAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = 4634A53B1724A6770059CB48 /* GTMOAuthAuthentication.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4634A5431724A6770059CB48 /* GTMOAuthSignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 4634A53D1724A6770059CB48 /* GTMOAuthSignIn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4634A5441724A6770059CB48 /* GTMOAuthViewControllerTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = 4634A53F1724A6770059CB48 /* GTMOAuthViewControllerTouch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4634A5451724A6770059CB48 /* GTMOAuthViewTouch.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4634A5401724A6770059CB48 /* GTMOAuthViewTouch.xib */; };
+		4634A5481724BD2C0059CB48 /* UIImage+Rotate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4634A5471724BD2C0059CB48 /* UIImage+Rotate.m */; };
 		463B30B816F20B28009FFA3E /* SmartFileEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 463B30B716F20B28009FFA3E /* SmartFileEngine.m */; };
 		463B30BA16F2573D009FFA3E /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463B30B916F2573C009FFA3E /* QuickLook.framework */; };
 		4682A6E11720E9A800512B8C /* gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 4682A6E01720E9A800512B8C /* gradient.png */; };
+		4690FDE01726B39F002DFC50 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A120CB1723759100E04DA6 /* Default.png */; };
+		4690FDE11726B3D1002DFC50 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A120CD172375A000E04DA6 /* Default@2x.png */; };
+		4690FDE21726B3E4002DFC50 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A120CF172375C800E04DA6 /* Default-568h@2x.png */; };
 		46A120D2172375F500E04DA6 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A120D1172375F500E04DA6 /* Default-Portrait@2x~ipad.png */; };
 		46A120D41723760700E04DA6 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 46A120D31723760700E04DA6 /* Default-Portrait~ipad.png */; };
 		46B0065117238ADE009C5516 /* SHLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46B0065017238ADE009C5516 /* SHLoginViewController.m */; };
@@ -66,9 +75,6 @@
 		46FAAEDB16E5215D0020CAAD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46FAAED916E5215D0020CAAD /* InfoPlist.strings */; };
 		46FAAEDD16E5215D0020CAAD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FAAEDC16E5215D0020CAAD /* main.m */; };
 		46FAAEE116E5215D0020CAAD /* SHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FAAEE016E5215D0020CAAD /* SHAppDelegate.m */; };
-		46FAAEE316E5215D0020CAAD /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 46FAAEE216E5215D0020CAAD /* Default.png */; };
-		46FAAEE516E5215D0020CAAD /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46FAAEE416E5215D0020CAAD /* Default@2x.png */; };
-		46FAAEE716E5215D0020CAAD /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46FAAEE616E5215D0020CAAD /* Default-568h@2x.png */; };
 		46FAAF1E16E52F130020CAAD /* SFBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FAAF1D16E52F130020CAAD /* SFBrowser.m */; };
 		46FAAF2216E545310020CAAD /* NSData+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 46FAAF2116E545310020CAAD /* NSData+Additions.m */; };
 /* End PBXBuildFile section */
@@ -96,10 +102,23 @@
 		4634A52417246AA80059CB48 /* UIButton+Glossy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Glossy.m"; sourceTree = "<group>"; };
 		4634A52617246BD00059CB48 /* SHButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHButton.h; sourceTree = "<group>"; };
 		4634A52717246BD00059CB48 /* SHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHButton.m; sourceTree = "<group>"; };
+		4634A5381724A6770059CB48 /* GTMHTTPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMHTTPFetcher.h; path = OAuth/GTMHTTPFetcher.h; sourceTree = "<group>"; };
+		4634A5391724A6770059CB48 /* GTMHTTPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMHTTPFetcher.m; path = OAuth/GTMHTTPFetcher.m; sourceTree = "<group>"; };
+		4634A53A1724A6770059CB48 /* GTMOAuthAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuthAuthentication.h; path = OAuth/GTMOAuthAuthentication.h; sourceTree = "<group>"; };
+		4634A53B1724A6770059CB48 /* GTMOAuthAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuthAuthentication.m; path = OAuth/GTMOAuthAuthentication.m; sourceTree = "<group>"; };
+		4634A53C1724A6770059CB48 /* GTMOAuthSignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuthSignIn.h; path = OAuth/GTMOAuthSignIn.h; sourceTree = "<group>"; };
+		4634A53D1724A6770059CB48 /* GTMOAuthSignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuthSignIn.m; path = OAuth/GTMOAuthSignIn.m; sourceTree = "<group>"; };
+		4634A53E1724A6770059CB48 /* GTMOAuthViewControllerTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMOAuthViewControllerTouch.h; path = OAuth/GTMOAuthViewControllerTouch.h; sourceTree = "<group>"; };
+		4634A53F1724A6770059CB48 /* GTMOAuthViewControllerTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMOAuthViewControllerTouch.m; path = OAuth/GTMOAuthViewControllerTouch.m; sourceTree = "<group>"; };
+		4634A5401724A6770059CB48 /* GTMOAuthViewTouch.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GTMOAuthViewTouch.xib; path = OAuth/GTMOAuthViewTouch.xib; sourceTree = "<group>"; };
+		4634A5461724BD2C0059CB48 /* UIImage+Rotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Rotate.h"; sourceTree = "<group>"; };
+		4634A5471724BD2C0059CB48 /* UIImage+Rotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Rotate.m"; sourceTree = "<group>"; };
 		463B30B616F20B28009FFA3E /* SmartFileEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartFileEngine.h; sourceTree = "<group>"; };
 		463B30B716F20B28009FFA3E /* SmartFileEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartFileEngine.m; sourceTree = "<group>"; };
 		463B30B916F2573C009FFA3E /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		4682A6E01720E9A800512B8C /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
+		4690FDDF1726B284002DFC50 /* SHConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHConstants.h; sourceTree = "<group>"; };
+		4690FDE31726B465002DFC50 /* Template.SHConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Template.SHConstants.h; sourceTree = "<group>"; };
 		46A120CB1723759100E04DA6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		46A120CD172375A000E04DA6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		46A120CF172375C800E04DA6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -158,9 +177,6 @@
 		46FAAEDE16E5215D0020CAAD /* SMARTBOX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SMARTBOX-Prefix.pch"; sourceTree = "<group>"; };
 		46FAAEDF16E5215D0020CAAD /* SHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHAppDelegate.h; sourceTree = "<group>"; };
 		46FAAEE016E5215D0020CAAD /* SHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHAppDelegate.m; sourceTree = "<group>"; };
-		46FAAEE216E5215D0020CAAD /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		46FAAEE416E5215D0020CAAD /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		46FAAEE616E5215D0020CAAD /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		46FAAF1C16E52F130020CAAD /* SFBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFBrowser.h; sourceTree = "<group>"; };
 		46FAAF1D16E52F130020CAAD /* SFBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFBrowser.m; sourceTree = "<group>"; };
 		46FAAF2016E545310020CAAD /* NSData+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Additions.h"; sourceTree = "<group>"; };
@@ -219,6 +235,22 @@
 				461B2D1417192913003EDA9A /* ZIP.png */,
 			);
 			name = "File Types";
+			sourceTree = "<group>";
+		};
+		4634A52917249DBE0059CB48 /* OAuth */ = {
+			isa = PBXGroup;
+			children = (
+				4634A5381724A6770059CB48 /* GTMHTTPFetcher.h */,
+				4634A5391724A6770059CB48 /* GTMHTTPFetcher.m */,
+				4634A53A1724A6770059CB48 /* GTMOAuthAuthentication.h */,
+				4634A53B1724A6770059CB48 /* GTMOAuthAuthentication.m */,
+				4634A53C1724A6770059CB48 /* GTMOAuthSignIn.h */,
+				4634A53D1724A6770059CB48 /* GTMOAuthSignIn.m */,
+				4634A53E1724A6770059CB48 /* GTMOAuthViewControllerTouch.h */,
+				4634A53F1724A6770059CB48 /* GTMOAuthViewControllerTouch.m */,
+				4634A5401724A6770059CB48 /* GTMOAuthViewTouch.xib */,
+			);
+			name = OAuth;
 			sourceTree = "<group>";
 		};
 		46ED0CF717198C400043545E /* detailView */ = {
@@ -372,6 +404,8 @@
 				46B0065017238ADE009C5516 /* SHLoginViewController.m */,
 				4634A52617246BD00059CB48 /* SHButton.h */,
 				4634A52717246BD00059CB48 /* SHButton.m */,
+				4690FDDF1726B284002DFC50 /* SHConstants.h */,
+				4690FDE31726B465002DFC50 /* Template.SHConstants.h */,
 			);
 			name = SMARTFILE;
 			path = SMARTBOX;
@@ -384,9 +418,6 @@
 				46FAAED916E5215D0020CAAD /* InfoPlist.strings */,
 				46FAAEDC16E5215D0020CAAD /* main.m */,
 				46FAAEDE16E5215D0020CAAD /* SMARTBOX-Prefix.pch */,
-				46FAAEE216E5215D0020CAAD /* Default.png */,
-				46FAAEE416E5215D0020CAAD /* Default@2x.png */,
-				46FAAEE616E5215D0020CAAD /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -400,6 +431,8 @@
 				46F3F0BC16EAF9FF00E8889F /* NSString+Encode.m */,
 				4634A52317246AA80059CB48 /* UIButton+Glossy.h */,
 				4634A52417246AA80059CB48 /* UIButton+Glossy.m */,
+				4634A5461724BD2C0059CB48 /* UIImage+Rotate.h */,
+				4634A5471724BD2C0059CB48 /* UIImage+Rotate.m */,
 			);
 			name = categories;
 			sourceTree = "<group>";
@@ -407,6 +440,7 @@
 		46FAAF3716E7BE6A0020CAAD /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				4634A52917249DBE0059CB48 /* OAuth */,
 				46F3F0BE16EF93F300E8889F /* MKNetworkKit */,
 				46F860091718E8AE002EBDBD /* Engines */,
 			);
@@ -466,9 +500,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				46FAAEDB16E5215D0020CAAD /* InfoPlist.strings in Resources */,
-				46FAAEE316E5215D0020CAAD /* Default.png in Resources */,
-				46FAAEE516E5215D0020CAAD /* Default@2x.png in Resources */,
-				46FAAEE716E5215D0020CAAD /* Default-568h@2x.png in Resources */,
 				461B2CF41718EB52003EDA9A /* Icon-72.png in Resources */,
 				461B2CF61718EB5A003EDA9A /* Icon-72@2x.png in Resources */,
 				461B2CF81718EB9B003EDA9A /* Icon.png in Resources */,
@@ -501,6 +532,10 @@
 				4630F3421720EE2F005E46CE /* UNK.png in Resources */,
 				46A120D2172375F500E04DA6 /* Default-Portrait@2x~ipad.png in Resources */,
 				46A120D41723760700E04DA6 /* Default-Portrait~ipad.png in Resources */,
+				4634A5451724A6770059CB48 /* GTMOAuthViewTouch.xib in Resources */,
+				4690FDE01726B39F002DFC50 /* Default.png in Resources */,
+				4690FDE11726B3D1002DFC50 /* Default@2x.png in Resources */,
+				4690FDE21726B3E4002DFC50 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,6 +567,11 @@
 				46B0065117238ADE009C5516 /* SHLoginViewController.m in Sources */,
 				4634A52517246AA80059CB48 /* UIButton+Glossy.m in Sources */,
 				4634A52817246BD00059CB48 /* SHButton.m in Sources */,
+				4634A5411724A6770059CB48 /* GTMHTTPFetcher.m in Sources */,
+				4634A5421724A6770059CB48 /* GTMOAuthAuthentication.m in Sources */,
+				4634A5431724A6770059CB48 /* GTMOAuthSignIn.m in Sources */,
+				4634A5441724A6770059CB48 /* GTMOAuthViewControllerTouch.m in Sources */,
+				4634A5481724BD2C0059CB48 /* UIImage+Rotate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
