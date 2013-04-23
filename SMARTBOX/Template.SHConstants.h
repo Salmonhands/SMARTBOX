@@ -26,6 +26,12 @@
 //  Withouth the comments of course
 //
 
+// These are for working with OAuth and will be given to you
+// by SmartFile
 //#define kCLIENTTOKEN @""
 //#define kCLIENTSECRET @""
-//#define kAUTHHEADER @""
+
+// This is for basic authentication and should be the authorization
+// header that you want
+// It should be in the form shown below
+//#define kAUTHHEADER @"Basic [lotsOfCharacters]=="

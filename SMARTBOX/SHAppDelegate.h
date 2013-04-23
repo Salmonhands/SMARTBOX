@@ -20,6 +20,10 @@
 #import <UIKit/UIKit.h>
 #import "SmartFileEngine.h"
 
+#ifndef kAUTHHEADER
+#error @"You must create a SHConstants.h file.  See Template.SHConstants.h for details"
+#endif
+
 #define ApplicationDelegate ((SHAppDelegate *)[[UIApplication sharedApplication] delegate])
 
 @class SHMultiTableViewController;
