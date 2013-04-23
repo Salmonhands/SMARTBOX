@@ -206,17 +206,17 @@
 			children = (
 				461B2D1E1719291E003EDA9A /* Images */,
 			);
-			name = Resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		461B2D1E1719291E003EDA9A /* Images */ = {
 			isa = PBXGroup;
 			children = (
 				46ED0CF81719A9060043545E /* Icons */,
-				46ED0CF717198C400043545E /* detailView */,
+				46ED0CF717198C400043545E /* Detail View */,
 				461B2D1F17192923003EDA9A /* File Types */,
 			);
-			name = Images;
+			path = Images;
 			sourceTree = "<group>";
 		};
 		461B2D1F17192923003EDA9A /* File Types */ = {
@@ -234,7 +234,7 @@
 				461B2D1317192913003EDA9A /* XLS.png */,
 				461B2D1417192913003EDA9A /* ZIP.png */,
 			);
-			name = "File Types";
+			path = "File Types";
 			sourceTree = "<group>";
 		};
 		4634A52917249DBE0059CB48 /* OAuth */ = {
@@ -253,9 +253,29 @@
 			name = OAuth;
 			sourceTree = "<group>";
 		};
-		46ED0CF717198C400043545E /* detailView */ = {
+		4690FDE41726BBAC002DFC50 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				46FAAF1C16E52F130020CAAD /* SFBrowser.h */,
+				46FAAF1D16E52F130020CAAD /* SFBrowser.m */,
+				461B2CFB1718EF20003EDA9A /* SHMultiTableViewController.h */,
+				461B2CFC1718EF20003EDA9A /* SHMultiTableViewController.m */,
+				461B2D0A17191149003EDA9A /* SHTableViewController.h */,
+				461B2D0B17191149003EDA9A /* SHTableViewController.m */,
+				46ED0CDA171987F20043545E /* SHFloatingViewController.h */,
+				46ED0CDB171987F20043545E /* SHFloatingViewController.m */,
+				46B0064F17238ADE009C5516 /* SHLoginViewController.h */,
+				46B0065017238ADE009C5516 /* SHLoginViewController.m */,
+				4634A52617246BD00059CB48 /* SHButton.h */,
+				4634A52717246BD00059CB48 /* SHButton.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		46ED0CF717198C400043545E /* Detail View */ = {
+			isa = PBXGroup;
+			children = (
+				4682A6E01720E9A800512B8C /* gradient.png */,
 				46ED0CDD171989650043545E /* detailLayoutBlank.png */,
 				46ED0CDF17198C2C0043545E /* clipboardshare.png */,
 				46ED0CE017198C2C0043545E /* clipboardshareT.png */,
@@ -270,7 +290,7 @@
 				46ED0CE917198C2D0043545E /* view.png */,
 				46ED0CEA17198C2D0043545E /* viewT.png */,
 			);
-			name = detailView;
+			path = "Detail View";
 			sourceTree = "<group>";
 		};
 		46ED0CF81719A9060043545E /* Icons */ = {
@@ -281,14 +301,13 @@
 				46A120CF172375C800E04DA6 /* Default-568h@2x.png */,
 				46A120CD172375A000E04DA6 /* Default@2x.png */,
 				46A120CB1723759100E04DA6 /* Default.png */,
-				4682A6E01720E9A800512B8C /* gradient.png */,
 				46DA7DC817194D700072B3D0 /* background.png */,
 				461B2CF91718EBA1003EDA9A /* Icon@2x.png */,
 				461B2CF71718EB9B003EDA9A /* Icon.png */,
 				461B2CF51718EB5A003EDA9A /* Icon-72@2x.png */,
 				461B2CF31718EB52003EDA9A /* Icon-72.png */,
 			);
-			name = Icons;
+			path = Icons;
 			sourceTree = "<group>";
 		};
 		46F3F0BE16EF93F300E8889F /* MKNetworkKit */ = {
@@ -340,7 +359,7 @@
 			children = (
 				46F8600A1718E8CD002EBDBD /* Smartfile */,
 			);
-			name = Engines;
+			path = Engines;
 			sourceTree = "<group>";
 		};
 		46F8600A1718E8CD002EBDBD /* Smartfile */ = {
@@ -357,7 +376,7 @@
 			children = (
 				461B2D1D17192917003EDA9A /* Resources */,
 				46FAAF3716E7BE6A0020CAAD /* Networking */,
-				46FAAF1F16E545220020CAAD /* categories */,
+				46FAAF1F16E545220020CAAD /* Categories */,
 				46FAAED616E5215D0020CAAD /* SMARTFILE */,
 				46FAAECF16E5215D0020CAAD /* Frameworks */,
 				46FAAECD16E5215D0020CAAD /* Products */,
@@ -389,23 +408,9 @@
 		46FAAED616E5215D0020CAAD /* SMARTFILE */ = {
 			isa = PBXGroup;
 			children = (
+				4690FDE41726BBAC002DFC50 /* Classes */,
+				46F860091718E8AE002EBDBD /* Engines */,
 				46FAAED716E5215D0020CAAD /* Supporting Files */,
-				46FAAEDF16E5215D0020CAAD /* SHAppDelegate.h */,
-				46FAAEE016E5215D0020CAAD /* SHAppDelegate.m */,
-				46FAAF1C16E52F130020CAAD /* SFBrowser.h */,
-				46FAAF1D16E52F130020CAAD /* SFBrowser.m */,
-				461B2CFB1718EF20003EDA9A /* SHMultiTableViewController.h */,
-				461B2CFC1718EF20003EDA9A /* SHMultiTableViewController.m */,
-				461B2D0A17191149003EDA9A /* SHTableViewController.h */,
-				461B2D0B17191149003EDA9A /* SHTableViewController.m */,
-				46ED0CDA171987F20043545E /* SHFloatingViewController.h */,
-				46ED0CDB171987F20043545E /* SHFloatingViewController.m */,
-				46B0064F17238ADE009C5516 /* SHLoginViewController.h */,
-				46B0065017238ADE009C5516 /* SHLoginViewController.m */,
-				4634A52617246BD00059CB48 /* SHButton.h */,
-				4634A52717246BD00059CB48 /* SHButton.m */,
-				4690FDDF1726B284002DFC50 /* SHConstants.h */,
-				4690FDE31726B465002DFC50 /* Template.SHConstants.h */,
 			);
 			name = SMARTFILE;
 			path = SMARTBOX;
@@ -414,6 +419,10 @@
 		46FAAED716E5215D0020CAAD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				46FAAEDF16E5215D0020CAAD /* SHAppDelegate.h */,
+				46FAAEE016E5215D0020CAAD /* SHAppDelegate.m */,
+				4690FDDF1726B284002DFC50 /* SHConstants.h */,
+				4690FDE31726B465002DFC50 /* Template.SHConstants.h */,
 				46FAAED816E5215D0020CAAD /* SMARTBOX-Info.plist */,
 				46FAAED916E5215D0020CAAD /* InfoPlist.strings */,
 				46FAAEDC16E5215D0020CAAD /* main.m */,
@@ -422,7 +431,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		46FAAF1F16E545220020CAAD /* categories */ = {
+		46FAAF1F16E545220020CAAD /* Categories */ = {
 			isa = PBXGroup;
 			children = (
 				46FAAF2016E545310020CAAD /* NSData+Additions.h */,
@@ -434,7 +443,7 @@
 				4634A5461724BD2C0059CB48 /* UIImage+Rotate.h */,
 				4634A5471724BD2C0059CB48 /* UIImage+Rotate.m */,
 			);
-			name = categories;
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		46FAAF3716E7BE6A0020CAAD /* Networking */ = {
@@ -442,7 +451,6 @@
 			children = (
 				4634A52917249DBE0059CB48 /* OAuth */,
 				46F3F0BE16EF93F300E8889F /* MKNetworkKit */,
-				46F860091718E8AE002EBDBD /* Engines */,
 			);
 			name = Networking;
 			sourceTree = "<group>";
