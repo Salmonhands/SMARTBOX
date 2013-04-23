@@ -119,6 +119,7 @@
 		4682A6E01720E9A800512B8C /* gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gradient.png; sourceTree = "<group>"; };
 		4690FDDF1726B284002DFC50 /* SHConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHConstants.h; sourceTree = "<group>"; };
 		4690FDE31726B465002DFC50 /* Template.SHConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Template.SHConstants.h; sourceTree = "<group>"; };
+		4690FDE51726C264002DFC50 /* gpl3.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = gpl3.txt; sourceTree = "<group>"; };
 		46A120CB1723759100E04DA6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		46A120CD172375A000E04DA6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		46A120CF172375C800E04DA6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -427,6 +428,7 @@
 				46FAAED916E5215D0020CAAD /* InfoPlist.strings */,
 				46FAAEDC16E5215D0020CAAD /* main.m */,
 				46FAAEDE16E5215D0020CAAD /* SMARTBOX-Prefix.pch */,
+				4690FDE51726C264002DFC50 /* gpl3.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
